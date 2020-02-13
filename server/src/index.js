@@ -3,10 +3,15 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const cors = require('cors')
 
-const app = express()
-const port = process.env.NODE_ENV || 4000
+const { dbConnection } = require('./config/db')
+
+const port = process.env.NODE_ENV || 9191
 
 const initServer = async () => {
+  await dbConnection()
+
+  const app = express()
+
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
 
