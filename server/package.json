@@ -1,0 +1,21 @@
+{
+  "private": false,
+  "version": "0.1.0",
+  "name": "back-app-server",
+  "description": "Banking app server.",
+  "author": "Byurhan Beyzat <hi@byurhanbeyzat.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "export NODE_ENV=development && nodemon src/index.js",
+    "start": "export NODE_ENV=production && node src/index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

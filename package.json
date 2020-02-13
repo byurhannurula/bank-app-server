@@ -1,0 +1,17 @@
+{
+  "private": false,
+  "version": "0.1.0",
+  "name": "bank-app",
+  "description": "Banking app.",
+  "author": "Byurhan Beyzat <hi@byurhanbeyzat.com>",
+  "repository": "https://github.com/byurhanbeyzat/bank-app",
+  "license": "MIT",
+  "scripts": {
+    "web": "cd web && yarn run dev",
+    "server": "cd server && yarn run dev"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint-config-byurhan": "^0.0.5"
+  }
+}
