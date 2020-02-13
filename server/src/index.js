@@ -4,10 +4,11 @@ const express = require('express')
 const cors = require('cors')
 
 const { dbConnection } = require('./config/db')
-
-const port = process.env.NODE_ENV || 9191
+const routes = require('./routes')
 
 const initServer = async () => {
+  const port = process.env.PORT || 4000
+
   await dbConnection()
 
   const app = express()
@@ -17,9 +18,7 @@ const initServer = async () => {
 
   app.use(cors())
 
-  app.get('/', (req, res) => {
-    res.send('Hello world!')
-  })
+  app.use('/', routes)
 
   app.listen(port, () => {
     console.log(`— Server: http://127.0.0.1:${port}`)
