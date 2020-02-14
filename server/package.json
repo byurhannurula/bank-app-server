@@ -19,7 +19,8 @@
     "express-session": "^1.17.0",
     "gravatar": "^1.8.0",
     "mongoose": "^5.8.13",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
