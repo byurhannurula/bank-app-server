@@ -7,8 +7,8 @@ const paymentData = data => {
     IBAN_beneficiary: data.IBAN_beneficiary,
     value: data.value,
     currency: data.currency,
-    paymentReason: data.paymentReason,
-    userStatus: data.userStatus,
+    reason: data.paymentReason,
+    status: data.userStatus,
     createdAt: data.createdAt,
   }
 }
