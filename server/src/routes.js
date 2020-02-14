@@ -8,7 +8,8 @@ const router = express.Router()
 
 router.post('/api/register', userController.register)
 router.post('/api/login', userController.login)
-router.get('/api/user/:id', userController.getUser)
+router.get('/api/user', userController.getUser)
+router.get('/api/user/:id', userController.getUserById)
 
 router.post('/api/makePayment', paymentController.makePayment)
 router.post('/api/payments', paymentController.getPayments)

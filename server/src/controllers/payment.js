@@ -16,23 +16,20 @@ const paymentData = data => {
 exports.makePayment = async (req, res) => {
   const payment = await Payment.create(req.body)
 
-  res.status(200).send({ data: paymentData(payment) })
+  return res.status(200).send({ data: paymentData(payment) })
 }
 
 // TODO: Get payment by search string
-exports.getSearchedPayment = async (req, res) => {
-  const { query } = req.params
-
-  const payments = await Payment.find({ query })
-}
+exports.getSearchedPayment = async (req, res) => {}
 
 exports.getPayment = async (req, res) => {
   const payment = await Payment.findById(req.params.id)
 
-  res.status(200).send({ data: paymentData(payment) })
+  return res.status(200).send({ data: paymentData(payment) })
 }
 
 exports.getPayments = async (req, res) => {
   const payments = await Payment.find({})
-  res.status(200).send({ data: payments })
+
+  return res.status(200).send({ data: payments })
 }

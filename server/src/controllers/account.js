@@ -11,13 +11,13 @@ exports.createAccount = async (req, res) => {
 
   const newAccount = await Account.create(req.body)
 
-  res.status(200).json({ data: newAccount })
+  return res.status(200).json({ data: newAccount })
 }
 
 exports.getAccounts = async (req, res) => {
   const accounts = await Account.find({})
 
-  res.status(200).json({ data: accounts })
+  return res.status(200).json({ data: accounts })
 }
 
 exports.getAccount = async (req, res) => {
@@ -25,5 +25,5 @@ exports.getAccount = async (req, res) => {
 
   console.log(account)
 
-  // res.status(200).json({ data: accounts })
+  // return res.status(200).json({ data: accounts })
 }
