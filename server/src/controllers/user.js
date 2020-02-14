@@ -9,9 +9,9 @@ exports.register = async (req, res) => {
     throw new Error('Email already exists!')
   }
 
-  User.create(req.body)
-    .then(result => res.status(201).json({ id: result.id }))
-    .catch(err => console.log(err))
+  const newUser = await User.create(req.body)
+
+  res.status(201).json({ id: newUser.id })
 }
 
 exports.login = async (req, res) => {
@@ -25,4 +25,19 @@ exports.login = async (req, res) => {
   }
 
   res.status(201).json({ user })
+}
+
+exports.getUser = async (req, res) => {
+  const user = await User.findById(req.params.id)
+
+  const data = {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  }
+
+  res.status(201).json({ data })
 }

@@ -14,18 +14,6 @@ const userSchema = new Schema(
     phoneNumber: Number,
     address: String,
     avatar: String,
-    accounts: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Account',
-      },
-    ],
-    payments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Payment',
-      },
-    ],
   },
   {
     timestamps: true,

@@ -4,8 +4,9 @@ const userController = require('./controllers/user')
 
 const router = express.Router()
 
-router.post('/register', userController.register)
-router.post('/login', userController.login)
+router.post('/api/register', userController.register)
+router.post('/api/login', userController.login)
+router.get('/api/:id', userController.getUser)
 
 // router.get('/api/user', controller())
 // router.get('/api/users', controller())
