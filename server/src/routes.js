@@ -1,6 +1,7 @@
 const express = require('express')
 
 const userController = require('./controllers/user')
+const paymentController = require('./controllers/payment')
 
 const router = express.Router()
 
@@ -8,12 +9,10 @@ router.post('/api/register', userController.register)
 router.post('/api/login', userController.login)
 router.get('/api/:id', userController.getUser)
 
-// router.get('/api/user', controller())
-// router.get('/api/users', controller())
-
-// router.post('/api/payments', controller())
-// router.get('/api/payments', controller())
-// router.get('/api/payments/<search_string>', controller())
+router.post('/api/makePayment', paymentController.makePayment)
+router.post('/api/payments', paymentController.getPayments)
+router.get('/api/payment/:id', paymentController.getPayment)
+router.post('/api/payments/:query', paymentController.getSearchedPayment)
 
 // router.get('/api/account', controller())
 // router.get('/api/accounts', controller())

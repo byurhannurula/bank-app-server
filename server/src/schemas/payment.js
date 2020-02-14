@@ -2,28 +2,16 @@ const { Schema, model } = require('mongoose')
 
 const paymentSchema = new Schema(
   {
-    IBAN_receiver: {
-      type: String,
-      required: true,
-    },
-    IBAN_beneficiary: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: Number,
-      required: true,
-    },
+    IBAN_sender: String,
+    IBAN_beneficiary: String,
+    value: Number,
     currency: {
       type: String,
       enum: ['BGN', 'EUR', 'USD'],
       default: 'BGN',
       required: true,
     },
-    paymentReason: {
-      type: String,
-      required: true,
-    },
+    paymentReason: String,
     userStatus: String,
     serverStatus: String,
   },
