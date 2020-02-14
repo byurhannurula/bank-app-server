@@ -1,27 +1,20 @@
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
-const bodyParser = require('body-parser')
-const express = require('express')
-const cors = require('cors')
 
 const { dbConnection } = require('./config/db')
+const { app } = require('./config/app')
 const routes = require('./routes')
 
+const port = process.env.PORT || 4000
+
 const initServer = async () => {
-  const port = process.env.PORT || 4000
+  console.clear()
 
   await dbConnection()
-
-  const app = express()
-
-  app.use(bodyParser.urlencoded({ extended: false }))
-  app.use(bodyParser.json())
-
-  app.use(cors())
 
   app.use('/', routes)
 
   app.listen(port, () => {
-    console.log(`— Server: http://127.0.0.1:${port}`)
+    console.log(`— Server is running: http://127.0.0.1:${port}`)
   })
 }
 
