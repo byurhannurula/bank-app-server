@@ -11,6 +11,12 @@ const accountSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    card: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Card',
+      },
+    ],
     balance: {
       type: Number,
       default: 0.0,

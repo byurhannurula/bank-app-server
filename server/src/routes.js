@@ -1,6 +1,7 @@
 const express = require('express')
 
 const userController = require('./controllers/user')
+const cardController = require('./controllers/card')
 const paymentController = require('./controllers/payment')
 const accountController = require('./controllers/account')
 
@@ -19,5 +20,8 @@ router.get('/api/payments/:query', paymentController.getSearchedPayment)
 router.post('/api/createAccount', accountController.createAccount)
 router.get('/api/accounts', accountController.getAccounts)
 router.get('/api/account/:iban', accountController.getAccount)
+
+router.get('/api/cards', cardController.getCards)
+router.get('/api/card/:id', cardController.getCard)
 
 module.exports = router
