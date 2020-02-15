@@ -1,5 +1,7 @@
 const express = require('express')
 
+const { verifyAuth } = require('./util/auth')
+
 const userController = require('./controllers/user')
 const cardController = require('./controllers/card')
 const paymentController = require('./controllers/payment')
@@ -9,8 +11,8 @@ const router = express.Router()
 
 router.post('/api/register', userController.register)
 router.post('/api/login', userController.login)
-router.get('/api/user', userController.getUser)
-router.get('/api/user/:id', userController.getUserById)
+router.get('/api/user', verifyAuth, userController.getUser)
+router.get('/api/user/:id', verifyAuth, userController.getUserById)
 
 router.post('/api/makePayment', paymentController.makePayment)
 router.get('/api/payments', paymentController.getPayments)

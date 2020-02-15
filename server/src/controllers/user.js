@@ -1,33 +1,21 @@
+const jwt = require('jsonwebtoken')
 const gravatar = require('gravatar')
 
 const User = require('../schemas/user')
 const { logOut } = require('../util/auth')
+const { userData, errorData } = require('./helpers')
 const { loginSchema, registerSchema } = require('../util/yupValidation')
-
-const userData = data => {
-  return {
-    id: data.id,
-    firstName: data.firstName,
-    lastName: data.lastName,
-    email: data.email,
-    avatar: data.avatar,
-    createdAt: data.createdAt,
-    updatedAt: data.updatedAt,
-  }
-}
 
 exports.register = async (req, res) => {
   try {
     await registerSchema.validate(req.body, { abortEarly: false })
   } catch (err) {
-    return err
+    return res.status(422).send({ error: errorData(err) })
   }
 
   const userExists = await User.findOne({ email: req.body.email })
 
-  if (userExists) {
-    throw new Error('Email already exists!')
-  }
+  if (userExists) return res.status(400).send('Email already exists!')
 
   const avatar = await gravatar.url(req.body.email, {
     protocol: 'http',
@@ -38,28 +26,46 @@ exports.register = async (req, res) => {
 
   const newUser = await User.create({ ...req.body, avatar })
 
-  req.session.userId = newUser.id
+  // req.session.userId = newUser.id
 
-  return res.status(200).json({ id: newUser.id })
+  // Create and assign jwt token
+  const token = jwt.sign({ id: newUser.id }, process.env.JWT_TOKEN, {
+    expiresIn: '7d',
+  })
+
+  return res
+    .status(200)
+    .header('token', token)
+    .json({ id: newUser.id })
 }
 
 exports.login = async (req, res) => {
   try {
     await loginSchema.validate(req.body, { abortEarly: false })
   } catch (err) {
-    return err
+    return res.status(422).send({ error: errorData(err) })
   }
 
   const user = await User.findOne({ email: req.body.email })
   const pass = await user.validatePassword(req.body.password)
 
   if (!user || !pass) {
-    throw new Error('Incorrect email or password. Please try again.')
+    return res
+      .status(400)
+      .send('Incorrect email or password. Please try again.')
   }
 
-  req.session.userId = user.id
+  // req.session.userId = user.id
 
-  return res.status(200).json({ data: userData(user) })
+  // Create and assign jwt token
+  const token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN, {
+    expiresIn: '7d',
+  })
+
+  return res
+    .status(200)
+    .header('token', token)
+    .json({ data: userData(user) })
 }
 
 exports.logout = async (req, res) => {
