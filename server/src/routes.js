@@ -12,12 +12,12 @@ router.get('/api/user', userController.getUser)
 router.get('/api/user/:id', userController.getUserById)
 
 router.post('/api/makePayment', paymentController.makePayment)
-router.post('/api/payments', paymentController.getPayments)
+router.get('/api/payments', paymentController.getPayments)
 router.get('/api/payment/:id', paymentController.getPayment)
-router.post('/api/payments/:query', paymentController.getSearchedPayment)
+router.get('/api/payments/:query', paymentController.getSearchedPayment)
 
 router.post('/api/createAccount', accountController.createAccount)
-router.post('/api/accounts', accountController.getAccounts)
+router.get('/api/accounts', accountController.getAccounts)
 router.get('/api/account/:iban', accountController.getAccount)
 
 module.exports = router

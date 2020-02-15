@@ -53,7 +53,7 @@ app.use((req, _, next) => {
   if (!req.session) {
     return next(new Error('Redis connection lost!'))
   }
-  next()
+  return next()
 })
 
 exports.app = app

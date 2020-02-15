@@ -23,7 +23,5 @@ exports.getAccounts = async (req, res) => {
 exports.getAccount = async (req, res) => {
   const account = await Account.findById(req.params.iban)
 
-  console.log(account)
-
-  // return res.status(200).json({ data: accounts })
+  return res.status(200).json({ data: account })
 }

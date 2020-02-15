@@ -11,9 +11,8 @@ const paymentSchema = new Schema(
       default: 'BGN',
       required: true,
     },
-    paymentReason: String,
-    userStatus: String,
-    serverStatus: String,
+    reason: String,
+    status: String,
   },
   {
     timestamps: true,
