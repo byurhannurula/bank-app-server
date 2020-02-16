@@ -1,8 +1,8 @@
 const gravatar = require('gravatar')
 
-const User = require('../schemas/user')
+const User = require('../models/user')
 const { logOut } = require('../util/auth')
-const { userData, errorData } = require('./helpers')
+const { userData, errorData } = require('../helpers')
 const { loginSchema, registerSchema } = require('../util/yupValidation')
 
 exports.register = async (req, res) => {

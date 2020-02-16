@@ -1,4 +1,4 @@
-const Account = require('../schemas/account')
+const Account = require('../models/account')
 
 exports.createAccount = async (req, res) => {
   const { IBAN } = req.body

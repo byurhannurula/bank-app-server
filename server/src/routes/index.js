@@ -1,11 +1,11 @@
 const express = require('express')
 
-const { verifyAuth } = require('./util/auth')
+const { verifyAuth } = require('../util/auth')
 
-const userController = require('./controllers/user')
-const cardController = require('./controllers/card')
-const paymentController = require('./controllers/payment')
-const accountController = require('./controllers/account')
+const userController = require('../controllers/user')
+const cardController = require('../controllers/card')
+const paymentController = require('../controllers/payment')
+const accountController = require('../controllers/account')
 
 const router = express.Router()
 

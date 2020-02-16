@@ -1,3 +1,4 @@
+const { AuthenticationError } = require('apollo-server-express')
 const jwt = require('jsonwebtoken')
 
 exports.verifyAuth = (req, res, next) => {
@@ -16,7 +17,7 @@ exports.verifyAuth = (req, res, next) => {
 exports.isAuthenticated = (req, res) => {
   if (!req || !req.session || !req.session.userId) {
     // user is not logged in
-    res.status(400).send('Not authenticated!')
+    throw new AuthenticationError('Not authenticated!')
   }
 }
 

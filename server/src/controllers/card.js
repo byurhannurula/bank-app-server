@@ -1,4 +1,4 @@
-const Card = require('../schemas/card')
+const Card = require('../models/card')
 
 exports.getCard = async (req, res) => {
   const card = await Card.find({ number: req.params.id })

@@ -2,15 +2,12 @@ const { ApolloServer } = require('apollo-server-express')
 const { createServer } = require('http')
 
 const { app } = require('./rest')
-const typeDefs = require('../schema')
+const typeDefs = require('../graphql/schema')
+const resolvers = require('../graphql/resolvers')
+
+const { models } = require('../models')
 
 const dev = process.env.NODE_ENV === 'development'
-
-const resolvers = {
-  Query: {
-    user: (parent, args, ctx, info) => {},
-  },
-}
 
 const server = new ApolloServer({
   typeDefs,
@@ -22,7 +19,7 @@ const server = new ApolloServer({
           'request.credentials': 'include',
         },
       },
-  context: ({ req, res }) => ({ req, res }),
+  context: ({ req, res }) => ({ req, res, models }),
 })
 
 server.applyMiddleware({ app, cors: false })

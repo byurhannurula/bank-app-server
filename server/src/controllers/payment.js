@@ -1,4 +1,4 @@
-const Payment = require('../schemas/payment')
+const Payment = require('../models/payment')
 
 const paymentData = data => {
   return {
