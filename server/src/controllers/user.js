@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken')
 const gravatar = require('gravatar')
 
 const User = require('../schemas/user')
@@ -10,7 +9,7 @@ exports.register = async (req, res) => {
   try {
     await registerSchema.validate(req.body, { abortEarly: false })
   } catch (err) {
-    return res.status(422).send({ error: errorData(err) })
+    return res.status(422).json({ error: errorData(err) })
   }
 
   const userExists = await User.findOne({ email: req.body.email })
@@ -26,24 +25,16 @@ exports.register = async (req, res) => {
 
   const newUser = await User.create({ ...req.body, avatar })
 
-  // req.session.userId = newUser.id
+  req.session.userId = newUser.id
 
-  // Create and assign jwt token
-  const token = jwt.sign({ id: newUser.id }, process.env.JWT_TOKEN, {
-    expiresIn: '7d',
-  })
-
-  return res
-    .status(200)
-    .header('token', token)
-    .json({ id: newUser.id })
+  return res.status(200).json({ id: newUser.id })
 }
 
 exports.login = async (req, res) => {
   try {
     await loginSchema.validate(req.body, { abortEarly: false })
   } catch (err) {
-    return res.status(422).send({ error: errorData(err) })
+    return res.status(422).json({ error: errorData(err) })
   }
 
   const user = await User.findOne({ email: req.body.email })
@@ -55,17 +46,9 @@ exports.login = async (req, res) => {
       .send('Incorrect email or password. Please try again.')
   }
 
-  // req.session.userId = user.id
+  req.session.userId = user.id
 
-  // Create and assign jwt token
-  const token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN, {
-    expiresIn: '7d',
-  })
-
-  return res
-    .status(200)
-    .header('token', token)
-    .json({ data: userData(user) })
+  return res.status(200).json({ data: userData(user) })
 }
 
 exports.logout = async (req, res) => {

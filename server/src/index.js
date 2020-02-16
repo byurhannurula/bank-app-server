@@ -1,10 +1,12 @@
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 const { dbConnection } = require('./config/db')
-const { app } = require('./config/app')
+const { httpServer } = require('./config/graphql')
+const { app } = require('./config/rest')
 const routes = require('./routes')
 
-const port = process.env.PORT || 4000
+const port1 = process.env.PORT || 4001
+const port2 = process.env.PORT || 4002
 
 const initServer = async () => {
   console.clear()
@@ -13,8 +15,11 @@ const initServer = async () => {
 
   app.use('/', routes)
 
-  app.listen(port, () => {
-    console.log(`— Server is running: http://127.0.0.1:${port}`)
+  app.listen(port1, () => {
+    console.log(`— Rest API is running: http://localhost:${port1}`)
+  })
+  httpServer.listen(port2, () => {
+    console.log(`— Graphql API is running: http://localhost:${port2}/graphql`)
   })
 }
 

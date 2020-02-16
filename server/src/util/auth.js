@@ -6,7 +6,7 @@ exports.verifyAuth = (req, res, next) => {
 
   try {
     const { id } = jwt.verify(token, process.env.JWT_TOKEN)
-    req.user = id
+    req.userId = id
     next()
   } catch (error) {
     return res.status(400).send('Invalid token!')
