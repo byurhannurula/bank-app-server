@@ -11,7 +11,7 @@ const accountSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    card: [
+    cards: [
       {
         type: Schema.Types.ObjectId,
         ref: 'Card',
@@ -31,7 +31,11 @@ const accountSchema = new Schema(
       enum: ['Current', 'Savings', 'Credit', 'ISIC'],
       default: 'Current',
     },
-    status: String,
+    status: {
+      type: String,
+      enum: ['Active', 'Inactive'],
+      default: 'Active',
+    },
   },
   {
     timestamps: true,

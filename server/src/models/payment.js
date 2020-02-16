@@ -9,7 +9,6 @@ const paymentSchema = new Schema(
       type: String,
       enum: ['BGN', 'EUR', 'USD'],
       default: 'BGN',
-      required: true,
     },
     reason: String,
     status: String,

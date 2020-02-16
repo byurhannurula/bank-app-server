@@ -1,5 +1,6 @@
 const gravatar = require('gravatar')
-const { errorData } = require('../helpers')
+const { errorData, responseData } = require('../helpers')
+const { randomIban } = require('../util/random')
 const { isAuthenticated, logOut } = require('../util/auth')
 const { loginSchema, registerSchema } = require('../util/yupValidation')
 
@@ -23,6 +24,71 @@ module.exports = {
       const users = await models.User.find({})
 
       return users
+    },
+
+    // Card
+    card: async (parent, { id }, { req, models }, info) => {
+      isAuthenticated(req)
+      const card = await models.Card.findById({
+        id,
+        holder: req.session.userId,
+      })
+
+      return card
+    },
+    cards: async (parent, args, { req, models }, info) => {
+      isAuthenticated(req)
+      const cards = await models.Card.find({ holder: req.session.userId })
+
+      return cards
+    },
+
+    // Account
+    account: async (parent, { iban }, { req, models }, info) => {
+      isAuthenticated(req)
+      const account = await models.Account.find({
+        IBAN: iban,
+        owner: req.session.userId,
+      })
+
+      return account
+    },
+    accounts: async (parent, args, { req, models }, info) => {
+      isAuthenticated(req)
+      const accounts = await models.Account.find({
+        owner: req.session.userId,
+      })
+
+      return accounts
+    },
+
+    // Payment
+    payment: async (parent, { id }, { req, models }, info) => {
+      isAuthenticated(req)
+      const payment = await models.Payment.findById(id)
+
+      return payment
+    },
+    payments: async (parent, args, { req, models }, info) => {
+      isAuthenticated(req)
+      const payments = await models.Payment.find({})
+
+      return payments
+    },
+    searchPayment: async (parent, { query }, { req, models }, info) => {
+      isAuthenticated(req)
+
+      const payments = await models.Payment.find({
+        results: {
+          $elemMatch: {
+            IBAN_sender: query,
+            IBAN_beneficiary: query,
+            createdAt: query,
+          },
+        },
+      })
+
+      return payments
     },
   },
   Mutation: {
@@ -97,6 +163,92 @@ module.exports = {
       )
 
       return updatedUser
+    },
+
+    // Account
+    createAccount: async (parent, args, { req, models }, info) => {
+      isAuthenticated(req)
+
+      const account = await models.Account.create({
+        owner: req.session.userId,
+        IBAN: randomIban(18),
+        ...args,
+      })
+
+      return account
+    },
+    updateAccount: async (parent, args, { req, models }, info) => {
+      isAuthenticated(req)
+
+      const updatedAccount = await models.Account.findOneAndUpdate(
+        { owner: req.session.userId, IBAN: args.IBAN },
+        {
+          balance: args.balance,
+          updatedAt: Date(),
+          ...args,
+        },
+      )
+
+      return updatedAccount
+    },
+
+    // Payment
+    makePayment: async (parent, args, { req, models }, info) => {
+      isAuthenticated(req)
+
+      const senderAcc = await models.Account.findOne({
+        owner: req.session.userId,
+        IBAN: args.IBAN_sender,
+      })
+
+      const benefAcc = await models.Account.findOne({
+        IBAN: args.IBAN_beneficiary,
+      })
+
+      const newPayment = await new models.Payment({
+        ...args,
+        currency: senderAcc.currency,
+      })
+
+      if (senderAcc.balance >= args.value) {
+        await models.Account.findOneAndUpdate(
+          { IBAN: args.IBAN_sender },
+          {
+            balance: senderAcc.balance - args.value,
+            updatedAt: Date(),
+          },
+        )
+        await models.Account.findOneAndUpdate(
+          { IBAN: args.IBAN_beneficiary },
+          {
+            balance: benefAcc.balance + args.value,
+            updatedAt: Date(),
+          },
+        )
+        newPayment.status = 'Completed'
+        newPayment.save()
+        return responseData('ok')
+      }
+
+      return responseData('fail')
+    },
+  },
+
+  // Relations
+  Account: {
+    owner: async (user, args, { req }, info) => {
+      return (await user.populate('owner').execPopulate()).owner
+    },
+    cards: async (cards, args, { req }, info) => {
+      return (await cards.populate('cards').execPopulate()).cards
+    },
+  },
+  Card: {
+    holder: async (user, args, { req }, info) => {
+      return (await user.populate('holder').execPopulate()).holder
+    },
+    account: async (account, args, { req }, info) => {
+      return (await account.populate('account').execPopulate()).account
     },
   },
 }

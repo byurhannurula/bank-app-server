@@ -9,38 +9,48 @@ module.exports = gql`
     card(id: ID!): Card
     cards: [Card!]
 
-    account(id: ID!): Account
+    account(iban: String!): Account
     accounts: [Account!]
 
     payment(id: ID!): Payment
+    searchPayment(query: String!): [Payment!]
     payments: [Payment!]
   }
 
   type Mutation {
+    logOut: Message!
+    login(email: String!, password: String!): User!
     register(
       firstName: String!
       lastName: String!
       ssn: String!
       email: String!
       password: String!
-    ): User
-    login(email: String!, password: String!): User!
-    logOut: Boolean
+    ): User!
     updateUser(
-      id: String!
-      name: String
-      bio: String
+      id: ID!
+      firstName: String
+      lastName: String
+      ssn: String
       email: String
-      avatar: String
-      password: String
     ): User
+
+    createAccount(owner: ID!, currency: String, accountType: String): Account!
+    updateAccount(IBAN: String!, balance: Float!): Account!
+
+    makePayment(
+      IBAN_sender: String!
+      IBAN_beneficiary: String!
+      value: Float!
+      reason: String
+    ): ResponseMessage!
   }
 
   type User {
     id: ID!
     firstName: String!
     lastName: String!
-    ssn: String!
+    ssn: Int!
     email: String!
     avatar: String
     address: String
@@ -51,10 +61,10 @@ module.exports = gql`
 
   type Account {
     id: ID!
-    owner: ID!
+    owner: User!
     IBAN: String!
-    balance: String
-    card: Card
+    balance: Float
+    cards: [Card!]
     status: String
     currency: String
     accountType: String
@@ -66,7 +76,7 @@ module.exports = gql`
     id: ID!
     IBAN_sender: String!
     IBAN_beneficiary: String!
-    value: String!
+    value: Float!
     currency: String!
     reason: String
     status: String
@@ -85,5 +95,15 @@ module.exports = gql`
     validUntil: String!
     createdAt: String!
     updatedAt: String!
+  }
+
+  type Message {
+    message: String!
+  }
+
+  type ResponseMessage {
+    code: String
+    status: String
+    message: String
   }
 `

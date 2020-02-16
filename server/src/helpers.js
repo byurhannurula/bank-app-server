@@ -16,6 +16,20 @@ exports.errorData = err => {
   }
 }
 
+exports.responseData = res => {
+  return res === 'ok'
+    ? {
+        code: '200',
+        status: 'OK',
+        message: 'Успешно изпълнена транзакция.',
+      }
+    : {
+        code: '400',
+        status: 'Fail',
+        message: 'Грешка при изпълнение на заяваката!',
+      }
+}
+
 exports.userData = data => {
   return {
     id: data.id,
