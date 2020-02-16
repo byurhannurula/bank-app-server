@@ -10,7 +10,7 @@ const userSchema = new Schema(
       lowercase: true,
     },
     password: String,
-    SSN: Number,
+    ssn: String,
     phoneNumber: Number,
     address: String,
     avatar: String,

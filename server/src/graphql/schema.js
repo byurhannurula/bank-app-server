@@ -20,6 +20,7 @@ module.exports = gql`
     register(
       firstName: String!
       lastName: String!
+      ssn: String!
       email: String!
       password: String!
     ): User
@@ -42,8 +43,8 @@ module.exports = gql`
     ssn: String!
     email: String!
     avatar: String
-    address: Stirng!
-    phoneNumber: Number
+    address: String
+    phoneNumber: String
     createdAt: String!
     updatedAt: String!
   }
@@ -52,7 +53,7 @@ module.exports = gql`
     id: ID!
     owner: ID!
     IBAN: String!
-    balance: Number
+    balance: String
     card: Card
     status: String
     currency: String
@@ -65,7 +66,7 @@ module.exports = gql`
     id: ID!
     IBAN_sender: String!
     IBAN_beneficiary: String!
-    value: Number!
+    value: String!
     currency: String!
     reason: String
     status: String
@@ -78,7 +79,7 @@ module.exports = gql`
     type: String!
     status: String!
     number: String!
-    cvc: Number!
+    cvc: String!
     holder: User!
     account: Account!
     validUntil: String!
