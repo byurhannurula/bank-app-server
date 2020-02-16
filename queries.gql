@@ -1,0 +1,89 @@
+# Queries
+query {
+  user(id: "5e4933f3cbad4720c99b4e65") {
+    id
+  }
+}
+
+query {
+  users {
+    id
+  }
+}
+
+query {
+  cards {
+    id
+  }
+}
+
+query {
+  accounts {
+    id
+    owner {
+      id
+    }
+    cards {
+      id
+    }
+  }
+}
+
+query {
+  searchPayment(query: "TNT9275724422242308000") {
+    id
+  }
+}
+
+
+
+# Mutations
+mutation {
+  login(email:"b@b.com",password:"secretPass1") {
+    id
+    firstName
+    lastName
+    email
+    ssn
+    avatar
+    address
+    phoneNumber
+    createdAt
+    updatedAt
+  }
+}
+
+mutation {
+  createAccount(
+    owner: "5e4933f3cbad4720c99b4e65"
+    currency: "BGN"
+    accountType: "ISIC"
+  ) {
+    id
+    IBAN
+    balance
+    status
+  }
+}
+
+mutation {
+  updateAccount(IBAN: "TNT5862086392959120000", balance: 0.0) {
+    id
+    IBAN
+    balance
+    status
+  }
+}
+
+mutation {
+  makePayment(
+    IBAN_sender: "TNT9275724422242308000"
+    IBAN_beneficiary: "TNT5862086392959120000"
+    value: 10.5
+    reason: "Za bonboni"
+  ) {
+    code
+    status
+    message
+  }
+}

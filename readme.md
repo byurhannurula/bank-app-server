@@ -1,5 +1,51 @@
 # bank-app
 
+## Tech Stack
+- Back-End:
+  - Node.js
+  - Express - REST API
+  - GraphQL Apollo Client - GraphQL API
+  - Mongoose - MongoDB Driver Wrapper
+  - Redis - Cookie store
+
+- Front-End:
+  - Next.js - React based SSR framework
+  - Apollo Client - GraphQL API connection
+  - Formik - Form creation/controlling
+  - SASS/SCSS - For page styling
+  - Yup - Form validation
+
+- Project
+  - ESLint/Prettier - Code linting and formatting
+
+## Folder Structure
+```sh
+app/
+├─ server/	
+│  └─ src/	
+│     ├─ config/
+│     │  ├─ db.js           # DB connection function
+│     │  ├─ graphql.js      # GraphQL Server configs
+│     │  ├─ redis.js        # Redis client configs
+│     │  └─ rest.js         # REST Server configs
+│     ├─ controllers/       # REST Server controllers
+│     ├─ graphql/           # GraphQL Server schema and resolvers
+│     ├─ models/            # Mongoose models
+│     ├─ routes/            # REST API routes
+│     ├─ util/              # Helper auth function and data validation schemas
+│     ├─ helpers.js         # Data/Error formatting helper functions
+│     └─ index.js           # DB Connection & Initiating the servers
+│
+└─ web/
+   └─ src/	
+      ├─ components/        # Reusable components
+      ├─ context/           # React context for global state
+      ├─ lib/               # Apollo client HOC component with helpers
+      ├─ pages/             # Next.js pages
+      ├─ requests/          # GraphQL requests/mutations
+      └─ styles/            # Global app styles
+```
+
 ### User
 - id
 - firstName
@@ -48,10 +94,10 @@
 ## API:
 
 ### GraphQL API
-`http://localhost:1000/graphql`
+`http://localhost:2000/graphql`
 
 ### REST API
-`http://localhost:2000/`
+`http://localhost:1000/`
 
 `GET /api/payments/` - Get all the payments
 
