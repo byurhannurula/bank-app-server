@@ -42,24 +42,46 @@ module.exports = gql`
     ssn: String!
     email: String!
     avatar: String
+    address: Stirng!
+    phoneNumber: Number
     createdAt: String!
     updatedAt: String!
   }
 
   type Account {
     id: ID!
+    owner: ID!
+    IBAN: String!
+    balance: Number
+    card: Card
+    status: String
+    currency: String
+    accountType: String
     createdAt: String!
     updatedAt: String!
   }
 
   type Payment {
     id: ID!
+    IBAN_sender: String!
+    IBAN_beneficiary: String!
+    value: Number!
+    currency: String!
+    reason: String
+    status: String
     createdAt: String!
     updatedAt: String!
   }
 
   type Card {
     id: ID!
+    type: String!
+    status: String!
+    number: String!
+    cvc: Number!
+    holder: User!
+    account: Account!
+    validUntil: String!
     createdAt: String!
     updatedAt: String!
   }

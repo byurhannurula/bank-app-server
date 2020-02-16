@@ -1,18 +1,19 @@
 # bank-app
 
-## User
+### User
 - id
 - firstName
 -	lastName
--	EGN
+-	ssn
 -	email
 -	address
 -	phoneNumber
 - createdAt
 - updatedAt
 
-## Account
--	IBAN (ПК) – първите 3 (за щастие) символа ще бъдат ид на банката (BRB - Бурканбанк). BRB010101
+### Account
+- id
+-	IBAN - First 3 letter => Bank ID
 -	Owner
 -	balance
 -	currency
@@ -21,89 +22,106 @@
 - createdAt
 - updatedAt
 
-## Payments
--	IBAN_sender_
--	IBAN_beneficiary_
+### Payments
+- id
+-	IBAN_sender
+-	IBAN_beneficiary
 -	value
 -	currency
--	paymentReason
--	userStatus
--	serverStatus
+-	reason
+-	status
+- createdAt
+- updatedAt
+
+### Cards
+- id
+- type
+- status
+- number
+- cvc
+- holder
+- account
+- validUntil
+- createdAt
+- updatedAt
  
-Описание на API-то.
+## API:
 
-`GET /api/payments/` - връща списък на всички плащания в банката
+### GraphQL API
+`http://localhost:1000/graphql`
 
-`GET /api/payments/<search_string>` - връща списък на всички плащания, отговарящи на критерия за търсене.
+### REST API
+`http://localhost:2000/`
 
-Отговор:
+`GET /api/payments/` - Get all the payments
+
+`GET /api/payments/<search_string>` - Get all payments containing the query string
+
+Result:
 
 ```json
 [
   {
   "IBAN_sender": "IBAN на наредителя",
   "IBAN_beneficiary": "IBAN на бенефициента",
-  "Amount": float,
-  "Currency": "BGN/EUR/USD",
-  "Reason": "основание за плащане",
-  "Date": "дата на плащане",
-  "Status": "потребителския статус на транзакцията"
+  "amount": float,
+  "currency": "BGN/EUR/USD",
+  "reason": "основание за плащане",
+  "date": "дата на плащане",
+  "status": "потребителския статус на транзакцията"
   },
-  ...
 ]
 ```
 
-JSON за обратна връзка
+JSON response for query status
 ```json
 {
-  "Status": "OK/Fail",
-  "Code": integer (код на грешката),
-  "Message": "Съобщение за грешка"
+  "status": "OK/Fail",
+  "code": "Message code",
+  "message": "Message"
 }
 ```
 
-`POST /api/payments/` - добавя ново плащане
+`POST /api/payment/` - Add new payment
 
-Заявка:
+Request:
 ```json
 {
-  "IBAN_sender": "IBAN на наредителя",
-  "IBAN_beneficiary": "IBAN на бенефициента",
-  "Amount": float,
-  "Currency": "BGN/EUR/USD",
-  "Reason": "основание за плащане"
+  "IBAN_sender": "",
+  "IBAN_beneficiary": "",
+  "amount": float,
+  "currency": "BGN/EUR/USD",
+  "reason": ""
 }
 ```
 
-Отговор при успешно изпълнена заявка:
+Response for successful query:
 ```json
 {
-  "Status": "OK",
-  "Code": 200,
-  "Message": "Успешно изпълнена транзакция"
+  "status": "OK",
+  "code": 200,
+  "message": "Успешно изпълнена транзакция"
 }
 ```
-При грешка: виж по-горе (json-а за обратна връзка или грешки).
 
-Проверка за валидност на сметка (всяка банка проверява само в себе си)
+`GET /api/accounts/<IBAN>` - Checks if the account is valid
 
-`GET /api/accounts/<IBAN>` - проверява дали банковата сметка съществува
+Response:
 ```json
 {
 	"valid": true/false
 }
 ```
 
-Заявки към централния възел (банков регистър)
-Банката наредител праща заявка до централния
+Queries for BankManagement:
+Bank sender sends query to the bank manager:
 
-`GET /centralAPI/bank/<IBAN>` - връща адреса на банката бенефициент, ако сметката е валидна ИЛИ грешка за невалидна сметка на бенефициента.
+`GET /centralAPI/bank/<IBAN>` - Returns address of bank beneficiary if the address is valid otherwise error response for invalid address.
 
-Отговор (при валидна сметка):
+Response for valid address:
 ```json
 {
-  "serviceUrl": "адрес на банката бенефициент",
-  "bankName": "Име на банката бенефициент"
+  "serviceUrl": "Bank beneficiary endpoint",
+  "bankName": "Bank name"
 }
 ```
-Отговор (при грешка): виж по-горе (json-а за обратна връзка или грешки).
