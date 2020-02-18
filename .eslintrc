@@ -4,6 +4,7 @@
     "new-cap": 0,
     "no-plusplus": 0,
     "no-unused-vars": 0,
+    "no-underscore-dangle": 0,
     "prettier/prettier": [
       "error",
       {

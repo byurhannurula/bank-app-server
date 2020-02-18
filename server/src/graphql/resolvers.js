@@ -1,7 +1,7 @@
 const gravatar = require('gravatar')
-const { errorData, responseData } = require('../helpers')
-const { randomIban } = require('../util/random')
 const { isAuthenticated, logOut } = require('../util/auth')
+const { errorData, responseData } = require('../util/formatter')
+const { formatDate, randomIban, randomNumber } = require('../util/randomizer')
 const { loginSchema, registerSchema } = require('../util/yupValidation')
 
 module.exports = {
@@ -33,6 +33,8 @@ module.exports = {
         id,
         holder: req.session.userId,
       })
+
+      if (!card) return new Error("You don't have card with this id")
 
       return card
     },
@@ -142,27 +144,15 @@ module.exports = {
     updateUser: async (parent, args, { req, models }, info) => {
       isAuthenticated(req)
 
-      const avatar = await gravatar.url(args.email, {
-        protocol: 'http',
-        size: '200',
-        rating: 'pg',
-        default: 'identicon',
-      })
-
-      const updatedUser = await models.User.findOneAndUpdate(
-        { _id: args.id },
+      await models.User.findOneAndUpdate(
+        { _id: req.session.userId },
         {
-          firstName: args.firstName,
-          lastName: args.lastName,
-          email: args.email,
-          sss: args.ssn,
-          avatar,
-          password: args.password,
+          ...args,
           updatedAt: Date(),
         },
       )
 
-      return updatedUser
+      return { message: 'User data updated successful!' }
     },
 
     // Account
@@ -180,7 +170,7 @@ module.exports = {
     updateAccount: async (parent, args, { req, models }, info) => {
       isAuthenticated(req)
 
-      const updatedAccount = await models.Account.findOneAndUpdate(
+      await models.Account.findOneAndUpdate(
         { owner: req.session.userId, IBAN: args.IBAN },
         {
           balance: args.balance,
@@ -189,7 +179,7 @@ module.exports = {
         },
       )
 
-      return updatedAccount
+      return { message: 'Account updated successful!' }
     },
 
     // Payment
@@ -232,23 +222,60 @@ module.exports = {
 
       return responseData('fail')
     },
+
+    // Card
+    requestCard: async (parent, args, { req, models }, info) => {
+      isAuthenticated(req)
+
+      const cardAccount = await models.Account.findOne({
+        owner: req.session.userId,
+        IBAN: args.IBAN,
+      })
+
+      if (!cardAccount)
+        return { message: `Account with IBAN ${args.IBAN} can't be found!` }
+
+      try {
+        const card = await models.Card.create({
+          holder: req.session.userId,
+          currency: cardAccount.currency,
+          validUntil: formatDate(),
+          number: randomNumber(15),
+          cvc: randomNumber(2),
+          account: cardAccount._id,
+          ...args,
+        })
+
+        await models.Account.findOneAndUpdate(
+          {
+            owner: req.session.userId,
+            IBAN: args.IBAN,
+          },
+          { $push: { cards: card } },
+        )
+
+        return { message: 'Card created successful!' }
+      } catch (error) {
+        return { message: 'Error while creating card!' }
+      }
+    },
   },
 
   // Relations
   Account: {
-    owner: async (user, args, { req }, info) => {
-      return (await user.populate('owner').execPopulate()).owner
+    owner: async (account, args, { req }, info) => {
+      return (await account.populate('owner').execPopulate()).owner
     },
-    cards: async (cards, args, { req }, info) => {
-      return (await cards.populate('cards').execPopulate()).cards
+    cards: async (account, args, { req }, info) => {
+      return (await account.populate('cards').execPopulate()).cards
     },
   },
   Card: {
-    holder: async (user, args, { req }, info) => {
-      return (await user.populate('holder').execPopulate()).holder
+    holder: async (card, args, { req }, info) => {
+      return (await card.populate('holder').execPopulate()).holder
     },
-    account: async (account, args, { req }, info) => {
-      return (await account.populate('account').execPopulate()).account
+    account: async (card, args, { req }, info) => {
+      return (await card.populate('account').execPopulate()).account
     },
   },
 }

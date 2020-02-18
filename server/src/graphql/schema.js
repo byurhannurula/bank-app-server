@@ -18,7 +18,7 @@ module.exports = gql`
   }
 
   type Mutation {
-    logOut: Message!
+    logOut: Boolean
     login(email: String!, password: String!): User!
     register(
       firstName: String!
@@ -33,10 +33,12 @@ module.exports = gql`
       lastName: String
       ssn: String
       email: String
-    ): User
+      address: String
+      phoneNumber: String
+    ): Message!
 
-    createAccount(owner: ID!, currency: String, accountType: String): Account!
-    updateAccount(IBAN: String!, balance: Float!): Account!
+    createAccount(owner: ID!, currency: String, accountType: String): Message!
+    updateAccount(IBAN: String!, balance: Float): Message!
 
     makePayment(
       IBAN_sender: String!
@@ -44,6 +46,13 @@ module.exports = gql`
       value: Float!
       reason: String
     ): ResponseMessage!
+
+    requestCard(
+      IBAN: String!
+      currency: String
+      status: String
+      type: String
+    ): Message!
   }
 
   type User {

@@ -35,6 +35,32 @@ query {
   }
 }
 
+query {
+  accounts {
+    id
+    owner {
+      id
+      firstName
+    }
+    cards {
+      id
+      type
+      status
+      number
+      cvc
+      holder {
+        firstName
+      }
+      account {
+        id
+        IBAN
+        balance
+      }
+      validUntil
+      createdAt
+    }
+  }
+}
 
 
 # Mutations
@@ -85,5 +111,29 @@ mutation {
     code
     status
     message
+  }
+}
+
+mutation {
+  requestCard(
+    IBAN: "TNT9275724422242308000"
+    currency: "BGN"
+    accountType: "ISIC"
+  ) {
+    code
+    status
+    message
+  }
+}
+
+mutation {
+  updateUser(
+    id: "5e4933f3cbad4720c99b4e65"
+    email:"b@b.com",
+    address:"Ruse, Bulgaria, Studentska 8, 7000"
+    phoneNumber:"+359871029546"
+  ) {
+    id
+    lastName
   }
 }

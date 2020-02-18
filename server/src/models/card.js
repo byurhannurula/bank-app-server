@@ -3,8 +3,8 @@ const { Schema, model } = require('mongoose')
 const cardSchema = new Schema(
   {
     cvc: Number,
-    number: String,
-    validUntil: Number,
+    number: Number,
+    validUntil: String,
     holder: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -18,7 +18,11 @@ const cardSchema = new Schema(
       enum: ['VISA', 'MASTER'],
       default: 'VISA',
     },
-    status: String,
+    status: {
+      type: String,
+      enum: ['Active', 'Inactive', 'Blocked'],
+      default: 'Active',
+    },
   },
   {
     timestamps: true,
