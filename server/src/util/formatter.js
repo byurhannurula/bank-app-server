@@ -16,17 +16,22 @@ exports.errorData = err => {
   }
 }
 
-exports.responseData = res => {
+exports.responseData = (
+  res,
+  msg = res === 'ok'
+    ? 'Успешно изпълнена транзакция.'
+    : 'Грешка при изпълнение на заяваката!',
+) => {
   return res === 'ok'
     ? {
         code: '200',
         status: 'OK',
-        message: 'Успешно изпълнена транзакция.',
+        message: msg,
       }
     : {
         code: '400',
         status: 'Fail',
-        message: 'Грешка при изпълнение на заяваката!',
+        message: msg,
       }
 }
 

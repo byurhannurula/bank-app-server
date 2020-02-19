@@ -14,7 +14,7 @@ router.post('/api/login', userController.login)
 router.get('/api/user', verifyAuth, userController.getUser)
 router.get('/api/user/:id', verifyAuth, userController.getUserById)
 
-router.post('/api/makePayment', paymentController.makePayment)
+router.post('/api/payment', paymentController.makePayment)
 router.get('/api/payments', paymentController.getPayments)
 router.get('/api/payment/:id', paymentController.getPayment)
 router.get('/api/payments/:query', paymentController.getSearchedPayment)

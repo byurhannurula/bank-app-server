@@ -37,8 +37,8 @@ module.exports = gql`
       phoneNumber: String
     ): Message!
 
-    createAccount(owner: ID!, currency: String, accountType: String): Message!
-    updateAccount(IBAN: String!, balance: Float): Message!
+    createAccount(owner: ID!, currency: String, accountType: String): Account!
+    updateAccount(IBAN: String!, balance: Float): Account!
 
     makePayment(
       IBAN_sender: String!
