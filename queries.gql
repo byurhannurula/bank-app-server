@@ -128,7 +128,7 @@ mutation {
 
 mutation {
   updateUser(
-    id: "5e4933f3cbad4720c99b4e65"
+    id: "5e4e5e8fd5a3c519d602ca30"
     email:"b@b.com",
     address:"Ruse, Bulgaria, Studentska 8, 7000"
     phoneNumber:"+359871029546"

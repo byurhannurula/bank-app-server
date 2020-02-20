@@ -4,6 +4,8 @@ const { errorData, responseData } = require('../util/formatter')
 const { formatDate, randomIban, randomNumber } = require('../util/randomizer')
 const { loginSchema, registerSchema } = require('../util/yupValidation')
 
+const { CENTRAL_SERVER, MY_BANK_ID } = process.env
+
 module.exports = {
   Query: {
     // Users
@@ -191,24 +193,41 @@ module.exports = {
     makePayment: async (parent, args, { req, models }, info) => {
       isAuthenticated(req)
 
-      const senderAcc = await models.Account.findOne({
-        owner: req.session.userId,
-        IBAN: args.IBAN_sender,
-      })
+      let isSender = false
+      let isBeneficiary = false
 
-      const benefAcc = await models.Account.findOne({
-        IBAN: args.IBAN_beneficiary,
-      })
+      let senderAcc = null
+      let benefAcc = null
 
-      if (!senderAcc) {
-        return responseData('fail', 'Invalid sender account IBAN!')
+      const senderIban = req.body.IBAN_sender
+      const receiverIban = req.body.IBAN_beneficiary
+
+      if (senderIban.substr(0, 3) === MY_BANK_ID) isSender = true
+      if (receiverIban.substr(0, 3) === MY_BANK_ID) isBeneficiary = true
+
+      if (isSender) {
+        senderAcc = await models.Account.findOne({
+          owner: req.session.userId,
+          IBAN: args.IBAN_sender,
+        })
+
+        if (!senderAcc) {
+          return responseData('fail', 'Invalid sender account IBAN!')
+        }
+
+        if (senderAcc.balance < args.value) {
+          return responseData('fail', 'Not enough balance!')
+        }
       }
-      if (!benefAcc) {
-        return responseData('fail', 'Invalid beneficiary account IBAN!')
-      }
 
-      if (senderAcc.balance < args.value) {
-        return responseData('fail', 'Not enough balance!')
+      if (isBeneficiary) {
+        benefAcc = await models.Account.findOne({
+          IBAN: args.IBAN_beneficiary,
+        })
+
+        if (!benefAcc) {
+          return responseData('fail', 'Invalid beneficiary account IBAN!')
+        }
       }
 
       await models.Account.findOneAndUpdate(
@@ -226,20 +245,27 @@ module.exports = {
         },
       )
 
-      const newPayment = await models.Payment.creat({
+      const newPayment = await models.Payment.create({
         ...args,
         status: 'Completed',
       })
 
-      await models.User.findOneAndUpdate(
-        { _id: req.session.userId },
-        { $push: { payments: newPayment } },
-      )
+      if (isSender && isBeneficiary) {
+        await models.User.findOneAndUpdate(
+          { _id: req.session.userId },
+          { $push: { payments: newPayment } },
+        )
+      } else if (isSender && !isBeneficiary) {
+        await models.User.findOneAndUpdate(
+          { _id: req.session.userId },
+          { $push: { payments: newPayment } },
+        )
 
-      await models.User.findOneAndUpdate(
-        { _id: benefAcc.owner.id },
-        { $push: { payments: newPayment } },
-      )
+        await models.User.findOneAndUpdate(
+          { _id: benefAcc.owner.id },
+          { $push: { payments: newPayment } },
+        )
+      }
 
       return responseData('ok')
     },
