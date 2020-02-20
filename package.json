@@ -8,9 +8,12 @@
   "license": "MIT",
   "scripts": {
     "web": "cd web && yarn run dev",
-    "server": "cd server && yarn run dev"
+    "server": "cd server && yarn run dev",
+    "dev": "concurrently \"yarn run web\" \"yarn run server\""
   },
-  "dependencies": {},
+  "dependencies": {
+    "concurrently": "^5.1.0"
+  },
   "devDependencies": {
     "eslint-config-byurhan": "^0.0.5"
   }

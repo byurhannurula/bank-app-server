@@ -64,6 +64,9 @@ module.exports = gql`
     avatar: String
     address: String
     phoneNumber: String
+    accounts: [Account!]
+    payments: [Payment!]
+    cards: [Card!]
     createdAt: String!
     updatedAt: String!
   }

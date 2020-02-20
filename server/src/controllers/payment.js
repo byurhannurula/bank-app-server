@@ -1,7 +1,10 @@
 const axios = require('axios')
+const User = require('../models/user')
 const Account = require('../models/account')
 const Payment = require('../models/payment')
 const { responseData } = require('../util/formatter')
+
+const { CENTRAL_SERVER, MY_BANK_ID } = process.env
 
 const paymentData = data => {
   return {
@@ -23,30 +26,30 @@ exports.makePayment = async (req, res) => {
   let senderAcc = null
   let benefAcc = null
 
-  if (req.body.IBAN_sender.substr(0, 3) === process.env.MY_BANK_ID) {
-    isSender = true
-  }
+  const senderIban = req.body.IBAN_sender
+  const receiverIban = req.body.IBAN_beneficiary
 
-  if (req.body.IBAN_beneficiary.substr(0, 3) === process.env.MY_BANK_ID) {
-    isBeneficiary = true
-  }
+  if (senderIban.substr(0, 3) === MY_BANK_ID) isSender = true
+  if (receiverIban.substr(0, 3) === MY_BANK_ID) isBeneficiary = true
 
   if (isSender) {
-    senderAcc = await Account.findOne({
-      IBAN: req.body.IBAN_sender,
-    })
+    senderAcc = await Account.findOne({ IBAN: senderIban })
 
     if (!senderAcc) {
       return res
         .status(400)
         .send(responseData('fail', 'Invalid sender account!'))
     }
+
+    if (!senderAcc.balance < req.body.value) {
+      return res
+        .status(400)
+        .send(responseData('fail', 'Not enough money on account!'))
+    }
   }
 
   if (isBeneficiary) {
-    benefAcc = await Account.findOne({
-      IBAN: req.body.IBAN_beneficiary,
-    })
+    benefAcc = await Account.findOne({ IBAN: receiverIban })
 
     if (!benefAcc) {
       return res
@@ -55,59 +58,78 @@ exports.makePayment = async (req, res) => {
     }
   }
 
-  const newPayment = await new Payment({
-    ...req.body,
-  })
-
-  if (isSender && !isBeneficiary) {
-    const isValidBank = await axios.get(
-      `${process.env.CENTRAL_SERVER}/${req.body.IBAN_sender}`,
-    )
-
-    console.log(isValidBank)
-
-    return res.status(400).send(responseData('fail', 'Invalid bank IBAN!'))
-  }
-
-  if (senderAcc.balance >= req.body.value) {
+  if (isSender && isBeneficiary) {
     await Account.findOneAndUpdate(
-      { IBAN: req.body.IBAN_sender },
+      { IBAN: senderIban },
       {
         balance: senderAcc.balance - req.body.value,
         updatedAt: Date(),
       },
     )
     await Account.findOneAndUpdate(
-      { IBAN: req.body.IBAN_beneficiary },
+      { IBAN: receiverIban },
       {
         balance: benefAcc.balance + req.body.value,
         updatedAt: Date(),
       },
     )
-    newPayment.status = 'Completed'
-    newPayment.save()
+    const newPayment = await Payment.create({
+      ...req.body,
+      status: 'Completed',
+    })
+
+    await User.findOneAndUpdate(
+      { _id: req.session.userId },
+      { $push: { payments: newPayment } },
+    )
+
+    await User.findOneAndUpdate(
+      { _id: benefAcc.owner._id },
+      { $push: { payments: newPayment } },
+    )
+
     return res.status(200).send(responseData('ok'))
   }
-  if (senderAcc.balance < req.body.value) {
-    return res
-      .status(200)
-      .send(responseData('fail', 'Account balance is smaller than the value!'))
+
+  if (isSender && !isBeneficiary) {
+    // Check if the beneficiary account is valid and get it's serviceURL
+    const bankAddress = await axios.get(`${CENTRAL_SERVER}/${senderIban}`)
+
+    if (senderAcc.balance >= req.body.value) {
+      if (bankAddress) {
+        axios.post(`${bankAddress}/payment`, { data: req.body })
+      }
+
+      // Update sender account - decrease the amount from balance
+      await Account.findOneAndUpdate(
+        { IBAN: senderIban },
+        {
+          balance: senderAcc.balance - req.body.value,
+          updatedAt: Date(),
+        },
+      )
+
+      // Create and save new payment to the DB, set status to 'Completed'
+      const newPayment = await Payment.create({
+        ...req.body,
+        status: 'Completed',
+      })
+
+      // Push the new payment to the senders account
+      await User.findOneAndUpdate(
+        { _id: req.session.userId },
+        { $push: { payments: newPayment } },
+      )
+
+      return res.status(400).send(responseData('ok'))
+    }
   }
 
-  return res.status(400).send(responseData('fail'))
+  return res.status(400).send(responseData('fail', 'Something went wrong!'))
 }
-
-// TODO: Get payment by search string
-exports.getSearchedPayment = async (req, res) => {}
 
 exports.getPayment = async (req, res) => {
   const payment = await Payment.findById(req.params.id)
 
   return res.status(200).send({ data: paymentData(payment) })
-}
-
-exports.getPayments = async (req, res) => {
-  const payments = await Payment.find({})
-
-  return res.status(200).send({ data: payments })
 }
