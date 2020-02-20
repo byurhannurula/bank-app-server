@@ -165,6 +165,11 @@ module.exports = {
         ...args,
       })
 
+      await models.User.findOneAndUpdate(
+        { _id: req.session.userId },
+        { $push: { accounts: account } },
+      )
+
       return account
     },
     updateAccount: async (parent, args, { req, models }, info) => {
@@ -195,32 +200,48 @@ module.exports = {
         IBAN: args.IBAN_beneficiary,
       })
 
-      const newPayment = await new models.Payment({
-        ...args,
-        currency: senderAcc.currency,
-      })
-
-      if (senderAcc.balance >= args.value) {
-        await models.Account.findOneAndUpdate(
-          { IBAN: args.IBAN_sender },
-          {
-            balance: senderAcc.balance - args.value,
-            updatedAt: Date(),
-          },
-        )
-        await models.Account.findOneAndUpdate(
-          { IBAN: args.IBAN_beneficiary },
-          {
-            balance: benefAcc.balance + args.value,
-            updatedAt: Date(),
-          },
-        )
-        newPayment.status = 'Completed'
-        newPayment.save()
-        return responseData('ok')
+      if (!senderAcc) {
+        return responseData('fail', 'Invalid sender account IBAN!')
+      }
+      if (!benefAcc) {
+        return responseData('fail', 'Invalid beneficiary account IBAN!')
       }
 
-      return responseData('fail')
+      if (senderAcc.balance < args.value) {
+        return responseData('fail', 'Not enough balance!')
+      }
+
+      await models.Account.findOneAndUpdate(
+        { IBAN: args.IBAN_sender },
+        {
+          balance: senderAcc.balance - args.value,
+          updatedAt: Date(),
+        },
+      )
+      await models.Account.findOneAndUpdate(
+        { IBAN: args.IBAN_beneficiary },
+        {
+          balance: benefAcc.balance + args.value,
+          updatedAt: Date(),
+        },
+      )
+
+      const newPayment = await models.Payment.creat({
+        ...args,
+        status: 'Completed',
+      })
+
+      await models.User.findOneAndUpdate(
+        { _id: req.session.userId },
+        { $push: { payments: newPayment } },
+      )
+
+      await models.User.findOneAndUpdate(
+        { _id: benefAcc.owner.id },
+        { $push: { payments: newPayment } },
+      )
+
+      return responseData('ok')
     },
 
     // Card
@@ -254,6 +275,11 @@ module.exports = {
           { $push: { cards: card } },
         )
 
+        await models.User.findOneAndUpdate(
+          { _id: req.session.userId },
+          { $push: { cards: card } },
+        )
+
         return { message: 'Card created successful!' }
       } catch (error) {
         return { message: 'Error while creating card!' }
@@ -262,6 +288,17 @@ module.exports = {
   },
 
   // Relations
+  User: {
+    accounts: async (user, args, { req }, info) => {
+      return (await user.populate('accounts').execPopulate()).accounts
+    },
+    payments: async (user, args, { req }, info) => {
+      return (await user.populate('payments').execPopulate()).payments
+    },
+    cards: async (user, args, { req }, info) => {
+      return (await user.populate('cards').execPopulate()).cards
+    },
+  },
   Account: {
     owner: async (account, args, { req }, info) => {
       return (await account.populate('owner').execPopulate()).owner
