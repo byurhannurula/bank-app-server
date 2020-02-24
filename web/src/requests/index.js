@@ -10,13 +10,30 @@ export const getUser = gql`
       email
       avatar
       address
+      accounts {
+        id
+        IBAN
+        balance
+        accountType
+        currency
+      }
+      payments {
+        id
+        IBAN_sender
+        IBAN_beneficiary
+        currency
+        reason
+        value
+        status
+        updatedAt
+      }
     }
   }
 `
 
 export const getAccounts = gql`
   query {
-    accounts {
+    me {
       id
       IBAN
       balance

@@ -2,14 +2,20 @@ import React, { createContext } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
 import { getUser } from '../requests'
+import { Loader } from '../components/common'
 
 const UserContext = createContext()
 
 const UserProvider = ({ children }) => {
-  const { loading, error, data } = useQuery(getUser)
+  const { error, loading, data } = useQuery(getUser, { ssr: false })
 
-  if (error && loading) {
-    return null
+  console.log(data)
+
+  if (error) {
+    return error
+  }
+  if (loading) {
+    return <Loader />
   }
 
   const currentUser = data && data.me
