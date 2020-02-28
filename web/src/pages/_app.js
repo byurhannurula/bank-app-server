@@ -25,6 +25,7 @@ const MyApp = ({ Component, pageProps, apollo, loggedInUser }) => {
               <main role="main">
                 <div className="container-small">
                   <Component {...pageProps} />
+                  <div id="modal-root" />
                 </div>
               </main>
               <QuickActions />

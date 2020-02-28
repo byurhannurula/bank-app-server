@@ -4,18 +4,18 @@ import { PlusIcon, NewPaymentIcon } from '../icons'
 import './styles.scss'
 
 const QuickActions = () => {
-  const [isActionsActive, setIsActionsActive] = useState(false)
+  const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
     window.addEventListener('click', e => {
       const el = e.target.closest('.button')
-      if (!el) setIsActionsActive(false)
+      if (!el) setIsActive(false)
     })
-  }, [isActionsActive])
+  }, [isActive])
 
   return (
     <div className="quick-actions">
-      <div className={isActionsActive ? 'modal isVisible' : 'modal'}>
+      <div className={isActive ? 'actions-modal isVisible' : 'actions-modal'}>
         <h4>Quick Actions</h4>
         <ul className="list">
           <li className="list-item">
@@ -34,8 +34,8 @@ const QuickActions = () => {
       </div>
       <button
         type="button"
-        className={isActionsActive ? 'isVisible button' : 'button'}
-        onClick={() => setIsActionsActive(!isActionsActive)}
+        className={('button', isActive ? 'isVisible button' : '')}
+        onClick={() => setIsActive(!isActive)}
       >
         <PlusIcon />
       </button>
