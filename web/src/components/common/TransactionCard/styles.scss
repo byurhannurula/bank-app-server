@@ -1,10 +1,32 @@
 .t-card {
   width: 100%;
-  max-height: 56px;
-  padding: 12px;
-  border-radius: 4px;
+  // max-height: 56px;
+  padding: 16px 22px;
+  border-radius: 8px;
+  border: 1px solid #F1F3F9;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  &:not(:last-of-type) {
+    margin-bottom: 18px;
+  }
+
+  p {
+    margin: 0;
+  }
 
   .left {
-    display: block;
+    display: block; 
+  }
+
+  .right {
+    p {
+      border-radius: 8px;
+      padding: 8px;
+      color: #4DBEB1;
+      background-color: #F0FBF4;
+    }
   }
 }

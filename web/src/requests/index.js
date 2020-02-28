@@ -1,5 +1,13 @@
 import gql from 'graphql-tag'
 
+export const getAuth = gql`
+  query {
+    me {
+      id
+    }
+  }
+`
+
 export const getUser = gql`
   query {
     me {
@@ -10,6 +18,7 @@ export const getUser = gql`
       email
       avatar
       address
+      createdAt
       accounts {
         id
         IBAN
@@ -25,7 +34,7 @@ export const getUser = gql`
         reason
         value
         status
-        updatedAt
+        createdAt
       }
     }
   }
@@ -34,11 +43,13 @@ export const getUser = gql`
 export const getAccounts = gql`
   query {
     me {
-      id
-      IBAN
-      balance
-      accountType
-      currency
+      accounts {
+        id
+        IBAN
+        balance
+        accountType
+        currency
+      }
     }
   }
 `
@@ -53,7 +64,7 @@ export const getPayments = gql`
       reason
       value
       status
-      updatedAt
+      createdAt
     }
   }
 `

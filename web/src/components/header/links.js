@@ -26,7 +26,7 @@ export const navLinks = [
   {
     id: 4,
     label: 'Profile',
-    link: '/user',
+    link: '/profile',
     icon: 'person',
   },
 ]

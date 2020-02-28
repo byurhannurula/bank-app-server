@@ -9,10 +9,8 @@ const UserContext = createContext()
 const UserProvider = ({ children }) => {
   const { error, loading, data } = useQuery(getUser, { ssr: false })
 
-  console.log(data)
-
   if (error) {
-    return error
+    return null
   }
   if (loading) {
     return <Loader />

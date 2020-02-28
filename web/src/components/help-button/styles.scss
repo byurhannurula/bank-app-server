@@ -1,0 +1,87 @@
+.quick-actions {
+  display: block;
+  margin-top: 56px;
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+
+  .modal {
+    display: none;
+    width: 260px;
+    height: 300px;
+    position: absolute;
+    right: 70px;
+    bottom: 70px;
+    padding: 18px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
+
+    &.isVisible {
+      display: block;
+    }
+
+    h4 {
+      font-size: 17px;
+      font-weight: 500;
+      margin-bottom: 22px;
+    }
+
+    .list {
+      &-item {
+        transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
+        border: 2px solid transparent;
+        border-radius: 4px;
+        color: #3EADB8;
+        padding: 6px 0;
+        cursor: pointer;
+
+        &:not(:last-child) {
+          margin-bottom: 14px;
+        }
+
+        i {
+          padding: 6px 8px;
+          margin-right: 12px;
+          border-radius: 4px;
+          background-color: #EFFAFD;
+
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
+
+        &:hover {
+          border-color: #DCF0F4;
+          background-color: #EFFAFD;
+        }
+      }
+    }
+  }
+
+  button {
+    outline: 0;
+    padding-top: -50px;
+    text-align: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+
+    &.isVisible {
+      svg {
+        transform: rotateZ(45deg);
+      }
+    }
+
+    svg {
+      transition: all 0.35s cubic-bezier(0.39, 0.575, 0.565, 1);
+      fill: #38A7B2;
+      width: 28px;
+      height: 28px;
+    }
+  }
+}

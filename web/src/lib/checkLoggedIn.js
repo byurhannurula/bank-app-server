@@ -1,8 +1,8 @@
-import { getUser } from '../requests'
+import { getAuth } from '../requests'
 
 export default apolloClient =>
   apolloClient
-    .query({ query: getUser })
+    .query({ query: getAuth })
     .then(({ data }) => {
       return { loggedInUser: data }
     })

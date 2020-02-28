@@ -9,22 +9,44 @@ import { UserProvider } from '../context/UserContext'
 
 import { SEO } from '../components/seo'
 import Header from '../components/header'
+import QuickActions from '../components/help-button'
 
 import '../styles/app.scss'
 
-const MyApp = ({ Component, pageProps, apollo }) => (
-  <ApolloProvider client={apollo}>
-    <UserProvider>
-      <SEO />
-      <Header />
-      <main role="main">
-        <div className="container-small">
-          <Component {...pageProps} />
-        </div>
-      </main>
-    </UserProvider>
-  </ApolloProvider>
-)
+const MyApp = ({ Component, pageProps, apollo, loggedInUser }) => {
+  return (
+    <>
+      {loggedInUser && loggedInUser.me ? (
+        <>
+          <ApolloProvider client={apollo}>
+            <UserProvider>
+              <SEO />
+              <Header />
+              <main role="main">
+                <div className="container-small">
+                  <Component {...pageProps} />
+                </div>
+              </main>
+              <QuickActions />
+            </UserProvider>
+          </ApolloProvider>
+        </>
+      ) : (
+        <>
+          <ApolloProvider client={apollo}>
+            <SEO />
+            <Header />
+            <main role="main">
+              <div className="container-small">
+                <Component {...pageProps} />
+              </div>
+            </main>
+          </ApolloProvider>
+        </>
+      )}
+    </>
+  )
+}
 
 MyApp.getInitialProps = async ({ Component, ctx }) => {
   let pageProps = {}
@@ -46,7 +68,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
     pageProps = await Component.getInitialProps(ctx)
   }
 
-  return { pageProps }
+  return { pageProps, loggedInUser }
 }
 
 export default withApollo(MyApp)
