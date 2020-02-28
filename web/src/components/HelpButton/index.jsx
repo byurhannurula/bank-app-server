@@ -7,10 +7,12 @@ const QuickActions = () => {
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
-    window.addEventListener('click', e => {
+    const handleOuterClick = e => {
       const el = e.target.closest('.button')
       if (!el) setIsActive(false)
-    })
+    }
+    window.addEventListener('click', e => handleOuterClick(e))
+    return () => window.removeEventListener('click', e => handleOuterClick(e))
   }, [isActive])
 
   return (
@@ -19,15 +21,11 @@ const QuickActions = () => {
         <h4>Quick Actions</h4>
         <ul className="list">
           <li className="list-item">
-            <i>
-              <PlusIcon />
-            </i>
+            <i className="ion-android-add" />
             Create Account
           </li>
           <li className="list-item">
-            <i>
-              <NewPaymentIcon />
-            </i>
+            <i className="ion-arrow-swap" />
             Transfer Money
           </li>
         </ul>

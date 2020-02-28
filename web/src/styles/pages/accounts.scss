@@ -1,10 +1,4 @@
 .accounts-page {
-  margin-top: 24px;
-
-  h2 {
-    margin-bottom: 32px;
-  }
-  
   .accounts {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

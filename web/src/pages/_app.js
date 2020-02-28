@@ -8,8 +8,8 @@ import checkLoggedIn from '../lib/checkLoggedIn'
 import { UserProvider } from '../context/UserContext'
 
 import { SEO } from '../components/seo'
-import Header from '../components/header'
-import QuickActions from '../components/help-button'
+import Header from '../components/Header'
+import QuickActions from '../components/HelpButton'
 
 import '../styles/app.scss'
 

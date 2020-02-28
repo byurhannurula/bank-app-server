@@ -20,7 +20,6 @@ const SiteLink = ({ label, link, icon }) => (
 
 const Header = () => {
   const currentUser = useContext(UserContext)
-
   const [logOut] = useMutation(logoutMutation)
 
   const handleLogout = async e => {

@@ -2,7 +2,7 @@ import React, { createContext } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
 import { getUser } from '../requests'
-import { Loader } from '../components/common'
+import { Loader } from '../components/Common'
 
 const UserContext = createContext()
 

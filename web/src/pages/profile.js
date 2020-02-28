@@ -7,8 +7,6 @@ import '../styles/pages/profile.scss'
 const Home = () => {
   const currentUser = useContext(UserContext)
 
-  console.log(currentUser)
-
   return (
     <>
       {currentUser && (

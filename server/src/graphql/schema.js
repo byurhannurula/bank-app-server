@@ -13,8 +13,8 @@ module.exports = gql`
     accounts: [Account!]
 
     payment(id: ID!): Payment
+    payments(iban: String!): AccountPayments!
     searchPayment(query: String!): [Payment!]
-    payments: [Payment!]
   }
 
   type Mutation {
@@ -107,6 +107,11 @@ module.exports = gql`
     validUntil: String!
     createdAt: String!
     updatedAt: String!
+  }
+
+  type AccountPayments {
+    income: [Payment!]
+    expenses: [Payment!]
   }
 
   type Message {

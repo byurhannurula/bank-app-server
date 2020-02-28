@@ -1,8 +1,8 @@
 const gravatar = require('gravatar')
 const { isAuthenticated, logOut } = require('../util/auth')
 const { errorData, responseData } = require('../util/formatter')
-const { formatDate, randomIban, randomNumber } = require('../util/randomizer')
 const { loginSchema, registerSchema } = require('../util/yupValidation')
+const { formatDate, randomIban, randomNumber } = require('../util/randomizer')
 
 const { CENTRAL_SERVER, MY_BANK_ID } = process.env
 
@@ -73,11 +73,17 @@ module.exports = {
 
       return payment
     },
-    payments: async (parent, args, { req, models }, info) => {
+    payments: async (parent, { iban }, { req, models }, info) => {
       isAuthenticated(req)
-      const payments = await models.Payment.find({})
+      const expenses = await models.Payment.find({
+        IBAN_sender: iban,
+      })
 
-      return payments
+      const incomes = await models.Payment.find({
+        IBAN_beneficiary: iban,
+      })
+
+      return { incomes, expenses }
     },
     searchPayment: async (parent, { query }, { req, models }, info) => {
       isAuthenticated(req)
@@ -315,29 +321,29 @@ module.exports = {
 
   // Relations
   User: {
-    accounts: async (user, args, { req }, info) => {
+    accounts: async (user, args, ctx, info) => {
       return (await user.populate('accounts').execPopulate()).accounts
     },
-    payments: async (user, args, { req }, info) => {
+    payments: async (user, args, ctx, info) => {
       return (await user.populate('payments').execPopulate()).payments
     },
-    cards: async (user, args, { req }, info) => {
+    cards: async (user, args, ctx, info) => {
       return (await user.populate('cards').execPopulate()).cards
     },
   },
   Account: {
-    owner: async (account, args, { req }, info) => {
+    owner: async (account, args, ctx, info) => {
       return (await account.populate('owner').execPopulate()).owner
     },
-    cards: async (account, args, { req }, info) => {
+    cards: async (account, args, ctx, info) => {
       return (await account.populate('cards').execPopulate()).cards
     },
   },
   Card: {
-    holder: async (card, args, { req }, info) => {
+    holder: async (card, args, ctx, info) => {
       return (await card.populate('holder').execPopulate()).holder
     },
-    account: async (card, args, { req }, info) => {
+    account: async (card, args, ctx, info) => {
       return (await card.populate('account').execPopulate()).account
     },
   },

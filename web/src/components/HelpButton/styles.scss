@@ -42,15 +42,11 @@
         }
 
         i {
-          padding: 6px 8px;
+          font-size: 20px;
+          padding: 6px 12px;
           margin-right: 12px;
           border-radius: 4px;
           background-color: #EFFAFD;
-
-          svg {
-            width: 24px;
-            height: 24px;
-          }
         }
 
         &:hover {
@@ -71,17 +67,15 @@
     background-color: #fff;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 
-    &.isVisible {
-      svg {
-        transform: rotateZ(45deg);
-      }
+    svg {
+      width: 24px;
+      height: 24px;
+      color: #38A7B2;
+      transition: all 0.35s cubic-bezier(0.39, 0.575, 0.565, 1);
     }
 
-    svg {
-      transition: all 0.35s cubic-bezier(0.39, 0.575, 0.565, 1);
-      fill: #38A7B2;
-      width: 28px;
-      height: 28px;
+    &.isVisible svg {
+      transform: rotateZ(45deg);
     }
   }
 }
