@@ -28,8 +28,8 @@ const accountSchema = new Schema(
     },
     accountType: {
       type: String,
-      enum: ['Current', 'Savings', 'Credit', 'ISIC'],
-      default: 'Current',
+      enum: ['Basic', 'Savings', 'Credit', 'ISIC'],
+      default: 'Basic',
     },
     status: {
       type: String,
