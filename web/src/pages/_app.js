@@ -1,17 +1,17 @@
 import React from 'react'
 import { ApolloProvider } from '@apollo/react-hooks'
 
-import { isAuthPath } from '../lib/isAuth'
-import redirect from '../lib/redirect'
-import withApollo from '../lib/withApollo'
-import checkLoggedIn from '../lib/checkLoggedIn'
-import { UserProvider } from '../context/UserContext'
+import redirect from '@lib/redirect'
+import withApollo from '@lib/withApollo'
+import { isAuthPath } from '@lib/isAuth'
+import checkLoggedIn from '@lib/checkLoggedIn'
+import { UserProvider } from '@context/UserContext'
 
-import { SEO } from '../components/seo'
-import Header from '../components/Header'
-import QuickActions from '../components/HelpButton'
+import { SEO } from '@components/seo'
+import Header from '@components/Header'
+import QuickActions from '@components/HelpButton'
 
-import '../styles/app.scss'
+import '@styles/app.scss'
 
 const MyApp = ({ Component, pageProps, apollo, loggedInUser }) => {
   return (

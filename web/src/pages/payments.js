@@ -1,8 +1,8 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
-import { Loader, TransactionCard } from '../components/Common'
-import { getPayments } from '../requests'
+import { Loader, TransactionCard } from '@common'
+import { getPayments } from '@requests'
 
 const Transactions = () => {
   const { error, loading, data } = useQuery(getPayments)

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react'
 
-import UserContext from '../context/UserContext'
+import UserContext from '@context/UserContext'
 
-import '../styles/pages/profile.scss'
+import '@styles/pages/profile.scss'
 
 const Home = () => {
   const currentUser = useContext(UserContext)

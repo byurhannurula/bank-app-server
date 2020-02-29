@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import Router from 'next/router'
 import { useMutation } from '@apollo/react-hooks'
+import Router from 'next/router'
 
-import { registerMutation } from '../requests'
+import { registerMutation } from '@requests'
 
 const Register = () => {
   const [state, setState] = useState({

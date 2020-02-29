@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react'
 
-import UserContext from '../context/UserContext'
-import { useMessage } from '../hooks'
-import { formatMoney } from '../util'
+import UserContext from '@context/UserContext'
+import { useMessage } from '@hooks'
+import { formatMoney } from '@util'
 
-import '../styles/pages/home.scss'
+import '@styles/pages/home.scss'
 
 const Home = () => {
   const [balance, setBalance] = useState('0')

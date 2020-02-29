@@ -14,7 +14,7 @@ const Modal = React.memo(
         <div className="modal-content">
           <header className="modal-header">
             <h3>{header}</h3>
-            <button type="button" onClick={closeModal}>
+            <button type="button" className="close" onClick={closeModal}>
               &times;
             </button>
           </header>

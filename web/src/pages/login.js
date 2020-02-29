@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import Router from 'next/router'
 import { useMutation } from '@apollo/react-hooks'
+import Router from 'next/router'
 
-import { loginMutation } from '../requests'
+import { loginMutation } from '@requests'
 
 const Login = () => {
   const [state, setState] = useState({

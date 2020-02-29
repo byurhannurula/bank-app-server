@@ -1,4 +1,4 @@
-import { getAuth } from '../requests'
+import { getAuth } from '@requests'
 
 export default apolloClient =>
   apolloClient

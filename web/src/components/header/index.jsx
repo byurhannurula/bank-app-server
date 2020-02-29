@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
+import { useMutation } from '@apollo/react-hooks'
 import Router from 'next/router'
 import Link from 'next/link'
-import { useMutation } from '@apollo/react-hooks'
 
+import UserContext from '@context/UserContext'
+import { logoutMutation } from '@requests'
 import { navLinks } from './links'
-import UserContext from '../../context/UserContext'
-import { logoutMutation } from '../../requests'
 
 import './styles.scss'
 

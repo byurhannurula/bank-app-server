@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { PlusIcon, NewPaymentIcon } from '../icons'
+
+import { useModal } from '@hooks'
+import { PaymentModal } from '@common'
+import { PlusIcon } from '../icons'
 
 import './styles.scss'
 
 const QuickActions = () => {
+  const {
+    showModal: showPaymentModal,
+    RenderModal: RenderPaymentModal,
+  } = useModal()
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
@@ -16,28 +23,33 @@ const QuickActions = () => {
   }, [isActive])
 
   return (
-    <div className="quick-actions">
-      <div className={isActive ? 'actions-modal isVisible' : 'actions-modal'}>
-        <h4>Quick Actions</h4>
-        <ul className="list">
-          <li className="list-item">
-            <i className="ion-android-add" />
-            Create Account
-          </li>
-          <li className="list-item">
-            <i className="ion-arrow-swap" />
-            Transfer Money
-          </li>
-        </ul>
+    <>
+      <RenderPaymentModal header="New Payment">
+        <PaymentModal />
+      </RenderPaymentModal>
+      <div className="quick-actions">
+        <div className={isActive ? 'actions-modal isVisible' : 'actions-modal'}>
+          <h4>Quick Actions</h4>
+          <ul className="list">
+            <li className="list-item" onClick={showPaymentModal}>
+              <i className="ion-android-add" />
+              Create Account
+            </li>
+            <li className="list-item">
+              <i className="ion-arrow-swap" />
+              Transfer Money
+            </li>
+          </ul>
+        </div>
+        <button
+          type="button"
+          className={('button', isActive ? 'isVisible button' : '')}
+          onClick={() => setIsActive(!isActive)}
+        >
+          <PlusIcon />
+        </button>
       </div>
-      <button
-        type="button"
-        className={('button', isActive ? 'isVisible button' : '')}
-        onClick={() => setIsActive(!isActive)}
-      >
-        <PlusIcon />
-      </button>
-    </div>
+    </>
   )
 }
 

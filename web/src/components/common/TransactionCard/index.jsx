@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { formatMoney, formatDate } from '../../../util'
+import { formatMoney, formatDate } from '@util'
 
 import './styles.scss'
 
