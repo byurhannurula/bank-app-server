@@ -1,13 +1,13 @@
 import React from 'react'
-import * as Yup from 'yup'
 import { Formik, Form } from 'formik'
 import { useQuery } from '@apollo/react-hooks'
 import { getAccounts } from '@requests'
 import { formatMoney } from '@util'
 import { Loader } from '@common'
 
-import { InputField } from '../input'
-import { Row, Group, SelectInput, Button } from '../styles'
+import { InputField, SelectField } from '../InputField'
+import { PaymentModalValidation } from '../Schemas'
+import { Row, Group, Button } from '../styles'
 
 export const PaymentModal = () => {
   const { loading, data } = useQuery(getAccounts)
@@ -20,24 +20,9 @@ export const PaymentModal = () => {
 
   return (
     <Formik
-      initialValues={{
-        iban: '',
-        reason: '',
-        amount: null,
-      }}
       validateOnChange
-      validationSchema={Yup.object().shape({
-        iban: Yup.string()
-          .required("Beneficiary's IBAN is required!")
-          .label('IBAN'),
-        reason: Yup.string()
-          .required('Reason is required!')
-          .label('Reason'),
-        amount: Yup.number()
-          .positive()
-          .required('Amount is required!')
-          .label('Amount'),
-      })}
+      validationSchema={PaymentModalValidation}
+      initialValues={{ senderAccount: '', iban: '', reason: '', amount: 0 }}
       onSubmit={async (res, { setSubmitting, resetForm }) => {
         console.log(res)
       }}
@@ -46,14 +31,21 @@ export const PaymentModal = () => {
         <Form>
           <Row>
             <Group>
-              <label htmlFor="senderAccount">Select Account</label>
-              <SelectInput name="senderAccount" id="senderAccount">
+              <SelectField
+                id="senderAccount"
+                name="senderAccount"
+                label="Select Account"
+                error={touched.senderAccount && errors.senderAccount ? 1 : 0}
+              >
+                <option value="" disabled>
+                  Please select account
+                </option>
                 {accounts?.map(acc => (
                   <option value={acc.IBAN} key={acc.id}>
                     {acc.accountType}, {formatMoney(acc.balance)} {acc.currency}
                   </option>
                 ))}
-              </SelectInput>
+              </SelectField>
             </Group>
           </Row>
           <Row>
@@ -93,9 +85,14 @@ export const PaymentModal = () => {
             </Group>
           </Row>
 
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={errors.length || isSubmitting}>
             Send
           </Button>
+
+          <div>
+            <pre>{JSON.stringify(touched, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
+          </div>
         </Form>
       )}
     </Formik>

@@ -34,6 +34,35 @@ export const Input = styled.input`
   `}
 `
 
+export const Select = styled.select`
+  appearance: none;
+  display: block;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  padding: 0.7em;
+  padding-left: 0;
+  font-size: 0.95em;
+  color: #141414;
+  line-height: 1.25;
+  margin-bottom: 18px;
+  background-color: transparent;
+  border-bottom: 1px solid #ccc;
+
+  &:focus {
+    border-color: blue;
+
+    &::placeholder {
+      color: transparent;
+      transition: all 150ms ease;
+    }
+  }
+
+  &::placeholder {
+    color: #ccc;
+  }
+`
+
 export const Button = styled.button`
   font-size: 0.8em;
   font-weight: 700;

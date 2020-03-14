@@ -18,7 +18,7 @@
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
     transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
 
-    &.isVisible {
+    &.isActive {
       display: block;
     }
 
@@ -31,6 +31,7 @@
     .list {
       &-item {
         transition: all 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
+        background-color: transparent;
         border: 2px solid transparent;
         border-radius: 4px;
         color: #3EADB8;
@@ -57,10 +58,8 @@
     }
   }
 
-  button {
+  .toggle-btn {
     outline: 0;
-    padding-top: -50px;
-    text-align: center;
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -74,7 +73,7 @@
       transition: all 0.35s cubic-bezier(0.39, 0.575, 0.565, 1);
     }
 
-    &.isVisible svg {
+    & .isActive svg {
       transform: rotateZ(45deg);
     }
   }

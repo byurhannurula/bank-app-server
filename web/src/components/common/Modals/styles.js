@@ -13,7 +13,7 @@ export const Group = styled.div`
 
   label {
     color: #ccc;
-    font-size: 0.8em;
+    font-size: 0.9em;
   }
 `
 
@@ -28,7 +28,7 @@ export const SelectInput = styled.select`
   font-size: 0.95em;
   color: #141414;
   line-height: 1.25;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
   background-color: transparent;
   border-bottom: 1px solid #ccc;
 
@@ -63,5 +63,9 @@ export const Button = styled.button`
   &:hover {
     color: #ffffff;
     background-color: blue;
+  }
+
+  &:disabled {
+    opacity: 0.5;
   }
 `
