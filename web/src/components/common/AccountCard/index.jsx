@@ -1,5 +1,6 @@
+/* eslint-disable */
 import React from 'react'
-import Link from 'next/link'
+
 import { formatMoney } from '@util'
 
 import './styles.scss'

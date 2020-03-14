@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useQuery } from '@apollo/react-hooks'
+import Flickity from 'react-flickity-component'
 
 import UserContext from '@context/UserContext'
 import { AccountCard, TransactionCard, Loader } from '@common'
@@ -8,6 +9,13 @@ import { useMessage } from '@hooks'
 import { formatMoney } from '@util'
 
 import '@styles/pages/home.scss'
+
+const flickityOptions = {
+  pageDots: false,
+  // prevNextButtons: false,
+  cellAlign: 'center',
+  contain: true,
+}
 
 const Home = () => {
   const { welcomeMsg } = useMessage()
@@ -89,13 +97,15 @@ const Home = () => {
           <section className="accounts-section">
             <h2>Accounts</h2>
             <div className="accounts">
-              {currentUser?.accounts.map(acc => (
-                <AccountCard
-                  key={acc.id}
-                  node={acc}
-                  onClick={() => setSelectedAccount(acc.IBAN)}
-                />
-              ))}
+              <Flickity className="cards-slider" options={flickityOptions}>
+                {currentUser?.accounts.map(acc => (
+                  <AccountCard
+                    key={acc.id}
+                    node={acc}
+                    onClick={() => setSelectedAccount(acc.IBAN)}
+                  />
+                ))}
+              </Flickity>
             </div>
           </section>
 

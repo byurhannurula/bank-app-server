@@ -1,5 +1,4 @@
 .homepage {
-
   .banner {
     margin-top: 32px;
     width: 100%;
@@ -45,35 +44,37 @@
         margin-top: 5px;
         margin-bottom: 0;
       }
-
     }
   }
-
-  
 
   .accounts-section {
     margin-top: 44px;
 
     h2 {
-      margin-bottom: 32px;
+      margin-left: 12px;
+      margin-bottom: 8px;
     }
 
     .accounts {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 24px;
+      .cards-slider {
+        height: 200px;
+        padding-top: 11px;
+      }
+      
+      .a-card {
+        &:not(:last-child) {
+          margin-right: 32px;
+        }
+      }
     }
   }
 
   .transactions-section {
-    margin-top: 32px;
+    margin-top: 44px;
 
     h2 {
-      margin-bottom: 24px;
-    }
-
-    .transactions {
-      // margin-top: 44px;
+      margin-left: 12px;
+      margin-bottom: 14px;
     }
   }
 }

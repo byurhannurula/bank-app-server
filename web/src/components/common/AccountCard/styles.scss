@@ -1,7 +1,14 @@
 .a-card {
+  width: 324px;
+  height: 180px;
   border-radius: 4px;
   background-color: #fff;
   box-shadow: 0 3px 13px rgba(20, 20, 20, 0.06);
+
+  &.is-selected {
+    border: 1px solid #66ADFB;
+    box-shadow: 0 0 11px rgba(102, 173, 251, 0.55);
+  }
 
   p {
     margin-top: 10px;
@@ -26,11 +33,11 @@
 
   .card-id {
     color: #A8B4C3;
-    padding-left: 22px;
-    padding-right: 22px;
+    
     border-top: 1px solid #EBECF2;
 
     p {
+      padding: 22px;
       font-size: 15px;
       font-weight: 500;
       letter-spacing: 0.5px;

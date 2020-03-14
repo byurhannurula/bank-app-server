@@ -17,18 +17,20 @@
     "apollo-client": "^2.6.8",
     "apollo-link-http": "^1.5.16",
     "classnames": "^2.2.6",
+    "flickity": "^2.2.1",
     "formik": "^2.1.4",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "9.2.1",
+    "next": "9.3.0",
     "next-with-apollo": "^5.0.0",
     "node-sass": "^4.13.1",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
-    "recharts": "^2.0.0-beta.1",
+    "react": "16.13.0",
+    "react-dom": "16.13.0",
+    "react-flickity-component": "^3.5.0",
+    "recharts": "^1.8.5",
     "styled-components": "^5.0.1",
-    "yup": "^0.28.1"
+    "yup": "^0.28.3"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7"

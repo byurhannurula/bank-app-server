@@ -12,5 +12,9 @@ export const SEO = ({ title = 'TNT Bank' }) => (
       rel="stylesheet"
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/flickity@2.2.1/dist/flickity.css"
+    />
   </Head>
 )
