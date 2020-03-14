@@ -9,10 +9,12 @@ const Transactions = () => {
 
   const payments = data && data.me.payments
 
+  console.log(payments)
+
   return (
     <div className="payments-page">
       <h2 className="page-title">My Transactions</h2>
-      {error && <p>{error}</p>}
+      {error && <p>{error.message}</p>}
       {loading && <Loader />}
       <div className="payments">
         {!error &&

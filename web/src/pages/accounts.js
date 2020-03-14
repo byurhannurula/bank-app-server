@@ -4,8 +4,6 @@ import { useQuery } from '@apollo/react-hooks'
 import { AccountCard } from '@common'
 import { getAccounts } from '@requests'
 
-import '@styles/pages/accounts.scss'
-
 const Accounts = () => {
   const { error, loading, data } = useQuery(getAccounts)
 

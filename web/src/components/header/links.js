@@ -19,12 +19,6 @@ export const navLinks = [
   },
   {
     id: 3,
-    label: 'Cards',
-    link: '/cards',
-    icon: 'card',
-  },
-  {
-    id: 4,
     label: 'Profile',
     link: '/profile',
     icon: 'person',

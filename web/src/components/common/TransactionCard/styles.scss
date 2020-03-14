@@ -1,16 +1,23 @@
 .t-card {
   width: 100%;
-  // max-height: 56px;
-  padding: 16px 22px;
-  border-radius: 8px;
-  border: 1px solid #F1F3F9;
+  padding: 10px 22px;
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   
   &:not(:last-of-type) {
-    margin-bottom: 18px;
+    border-bottom: 1px solid #F1F3F9;
+  }
+
+  &:first-of-type {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  &:last-of-type {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 
   p {

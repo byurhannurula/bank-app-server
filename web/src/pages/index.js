@@ -8,8 +8,6 @@ import { getAccountPayments } from '@requests'
 import { useMessage } from '@hooks'
 import { formatMoney } from '@util'
 
-import '@styles/pages/home.scss'
-
 const flickityOptions = {
   pageDots: false,
   // prevNextButtons: false,
