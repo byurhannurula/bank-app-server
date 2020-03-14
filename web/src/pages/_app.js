@@ -1,4 +1,6 @@
 import React from 'react'
+import Router from 'next/router'
+import NProgress from 'nprogress'
 import { ApolloProvider } from '@apollo/react-hooks'
 
 import redirect from '@lib/redirect'
@@ -12,6 +14,10 @@ import Header from '@components/Header'
 import QuickActions from '@components/HelpButton'
 
 import '@styles/app.scss'
+
+Router.events.on('routeChangeStart', () => NProgress.start())
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 const MyApp = ({ Component, pageProps, apollo, loggedInUser }) => {
   return (

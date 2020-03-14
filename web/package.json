@@ -25,6 +25,7 @@
     "next": "9.3.0",
     "next-with-apollo": "^5.0.0",
     "node-sass": "^4.13.1",
+    "nprogress": "^0.2.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
     "react-flickity-component": "^3.5.0",

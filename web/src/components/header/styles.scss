@@ -35,6 +35,10 @@
       background-color: #F9FAFC;
     }
 
+    &.active {
+      border-bottom: 1.5px solid #419BFF;
+    }
+
     i {
       display: flex;
       font-size: 20px;

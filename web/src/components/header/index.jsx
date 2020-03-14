@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import Router from 'next/router'
 import Link from 'next/link'
+import cn from 'classnames'
 
 import UserContext from '@context/UserContext'
 import { logoutMutation } from '@requests'
@@ -9,15 +10,17 @@ import { navLinks } from './links'
 
 import './styles.scss'
 
-const SiteLink = ({ label, link, icon }) => (
-  <Link href={link}>
-    <a className="nav__link">
-      {icon && <i className={`ion-${icon}`} />}
-      {label}
-    </a>
-  </Link>
-)
-
+const SiteLink = ({ label, link, icon }) => {
+  const isActivePath = Router.pathname === link
+  return (
+    <Link href={link}>
+      <a className={cn('nav__link', { active: isActivePath })}>
+        {icon && <i className={`ion-${icon}`} />}
+        {label}
+      </a>
+    </Link>
+  )
+}
 const Header = () => {
   const currentUser = useContext(UserContext)
   const [logOut] = useMutation(logoutMutation)
@@ -26,7 +29,7 @@ const Header = () => {
     e.preventDefault()
     await logOut()
     Router.replace('/login')
-    location.replace('/login')
+    // location.replace('/login')
   }
 
   return (

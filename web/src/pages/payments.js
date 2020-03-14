@@ -9,8 +9,6 @@ const Transactions = () => {
 
   const payments = data && data.me.payments
 
-  console.log(payments)
-
   return (
     <div className="payments-page">
       <h2 className="page-title">My Transactions</h2>
