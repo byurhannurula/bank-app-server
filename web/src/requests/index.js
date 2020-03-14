@@ -21,7 +21,10 @@ export const getUser = gql`
       createdAt
       accounts {
         id
+        IBAN
         balance
+        currency
+        accountType
       }
     }
   }
@@ -54,6 +57,31 @@ export const getPayments = gql`
         reason
         value
         status
+        createdAt
+      }
+    }
+  }
+`
+
+export const getAccountPayments = gql`
+  query getPayments($iban: String!) {
+    payments(iban: $iban) {
+      incomes {
+        id
+        value
+        reason
+        currency
+        IBAN_sender
+        IBAN_beneficiary
+        createdAt
+      }
+      expenses {
+        id
+        value
+        reason
+        currency
+        IBAN_sender
+        IBAN_beneficiary
         createdAt
       }
     }

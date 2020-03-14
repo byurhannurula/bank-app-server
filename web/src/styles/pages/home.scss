@@ -49,14 +49,31 @@
     }
   }
 
-  .accounts {
-    margin-top: 24px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+  
+
+  .accounts-section {
+    margin-top: 44px;
+
+    h2 {
+      margin-bottom: 32px;
+    }
+
+    .accounts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
   }
 
-  .transactions {
-    margin-top: 23px;
+  .transactions-section {
+    margin-top: 32px;
+
+    h2 {
+      margin-bottom: 24px;
+    }
+
+    .transactions {
+      // margin-top: 44px;
+    }
   }
 }

@@ -7,13 +7,7 @@ export const formatMoney = money => {
 }
 
 export const formatDate = value => {
-  const dateVal = `/Date(${value})/`
-  const date = new Date(parseFloat(dateVal.substr(6)))
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const year = date.getUTCFullYear()
+  const date = new Date(parseFloat(value))
 
-  const formattedDate = `${day}/${month}/${year}`
-
-  return formattedDate
+  return date.toLocaleString()
 }

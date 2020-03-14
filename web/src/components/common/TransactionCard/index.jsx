@@ -4,8 +4,8 @@ import { formatMoney, formatDate } from '@util'
 
 import './styles.scss'
 
-export const TransactionCard = ({ node, sign }) => {
-  console.log(sign)
+export const TransactionCard = ({ node }) => {
+  const sign = node.type === 'income' ? '+' : '-'
 
   return (
     <div className="t-card">
@@ -14,7 +14,12 @@ export const TransactionCard = ({ node, sign }) => {
         <p>{formatDate(node.createdAt)}</p>
       </span>
       <span className="right">
-        <p>
+        <p
+          style={{
+            color: sign === '-' ? '#9c695d' : '',
+            backgroundColor: sign === '-' ? '#fff3f3' : '',
+          }}
+        >
           {sign} {node.currency} {formatMoney(node.value)}
         </p>
       </span>

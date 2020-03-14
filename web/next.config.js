@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-const path = require('path')
 const withSass = require('@zeit/next-sass')
 
 module.exports = withSass({
