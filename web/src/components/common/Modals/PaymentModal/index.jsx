@@ -5,7 +5,7 @@ import { getAccounts } from '@requests'
 import { formatMoney } from '@util'
 import { Loader } from '@common'
 
-import { InputField, SelectField } from '../InputField'
+import { InputField, SelectField } from '@common/InputField'
 import { PaymentModalValidation } from '../Schemas'
 import { Row, Group, Button } from '../styles'
 

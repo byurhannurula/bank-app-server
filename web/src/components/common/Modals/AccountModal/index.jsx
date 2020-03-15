@@ -1,6 +1,7 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
-import { SelectField } from '../InputField'
+import { SelectField } from '@common/InputField'
+
 import { Row, Group, Button } from '../styles'
 import { AccountModalValidation } from '../Schemas'
 import { accountTypes, currencies } from './data'
@@ -56,7 +57,7 @@ export const AccountModal = () => {
             </Group>
           </Row>
 
-          <Button type="submit" disabled={errors.ength || isSubmitting}>
+          <Button type="submit" disabled={errors.length || isSubmitting}>
             Create
           </Button>
         </Form>
