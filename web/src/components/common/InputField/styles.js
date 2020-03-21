@@ -10,7 +10,7 @@ export const Input = styled.input`
   font-size: 0.95em;
   color: #141414;
   line-height: 1.25;
-  margin-bottom: 18px;
+  margin-bottom: 8px;
   background-color: transparent;
   border-bottom: 1px solid #ccc;
 
@@ -45,7 +45,7 @@ export const Select = styled.select`
   font-size: 0.95em;
   color: #141414;
   line-height: 1.25;
-  margin-bottom: 18px;
+  margin-bottom: 8px;
   background-color: transparent;
   border-bottom: 1px solid #ccc;
 
@@ -93,4 +93,5 @@ export const Button = styled.button`
 export const Error = styled.div`
   font-size: 0.8em;
   color: red;
+  margin-bottom: 6px;
 `

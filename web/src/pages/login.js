@@ -1,54 +1,80 @@
-import React, { useState } from 'react'
+import React from 'react'
+import Link from 'next/link'
+import { Form, Formik } from 'formik'
+import { useRouter } from 'next/router'
 import { useMutation } from '@apollo/react-hooks'
-import Router from 'next/router'
 
+import { InputField, loginSchema } from '@common'
 import { loginMutation } from '@requests'
 
 const Login = () => {
-  const [state, setState] = useState({
-    email: 'b@b.com',
-    password: 'secretPass1',
-  })
+  const router = useRouter()
 
-  const handleChange = e => {
-    setState({ ...state, [e.target.name]: e.target.value })
-  }
-
-  const [login] = useMutation(loginMutation)
+  const [login, { error }] = useMutation(loginMutation)
 
   return (
-    <>
+    <div className="login-page">
       <h2>Login to TNT Bank!</h2>
       <hr />
-      <form
-        onSubmit={async e => {
-          e.preventDefault()
-          await login({ variables: state })
-          await Router.push('/')
-          setState({ email: '', password: '' })
-        }}
-      >
-        <input
-          type="email"
-          name="email"
-          value={state.email}
-          placeholder="Email"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          value={state.password}
-          placeholder="Password"
-          onChange={handleChange}
-        />
+      <div className="form">
+        <Formik
+          initialValues={{
+            email: 'b@b.com',
+            password: 'secretPass1',
+          }}
+          validateOnChange
+          validationSchema={loginSchema}
+          onSubmit={async (res, { setSubmitting, resetForm }) => {
+            setSubmitting(true)
+            await login({ variables: res })
+            await router.push('/')
+            setSubmitting(false)
+            resetForm()
+          }}
+        >
+          {({ touched, errors, isValid, isSubmitting }) => (
+            <Form>
+              <div className="row">
+                <div className="group">
+                  <InputField
+                    type="email"
+                    id="email"
+                    name="email"
+                    label="Email"
+                    error={touched.email && errors.email ? 1 : 0}
+                  />
+                  <InputField
+                    type="password"
+                    id="password"
+                    name="password"
+                    label="Password"
+                    error={touched.password && errors.password ? 1 : 0}
+                  />
+                </div>
+              </div>
 
-        <button type="submit">Login</button>
-      </form>
-      <div>
-        <pre>{JSON.stringify(state, null, 2)}</pre>
+              <div className="error">
+                {error && error.graphQLErrors[0].message}
+              </div>
+
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={!isValid || isSubmitting}
+              >
+                Login
+              </button>
+            </Form>
+          )}
+        </Formik>
+        <p className="small-text">
+          Don&rsquo;t have an account?{' '}
+          <Link href="/register">
+            <a>Create one</a>
+          </Link>
+        </p>
       </div>
-    </>
+    </div>
   )
 }
 

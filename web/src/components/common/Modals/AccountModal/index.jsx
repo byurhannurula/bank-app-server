@@ -1,9 +1,8 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
-import { SelectField } from '@common/InputField'
+import { SelectField, accountSchema } from '@common'
 
 import { Row, Group, Button } from '../styles'
-import { AccountModalValidation } from '../Schemas'
 import { accountTypes, currencies } from './data'
 
 export const AccountModal = () => {
@@ -11,7 +10,7 @@ export const AccountModal = () => {
     <Formik
       initialValues={{ accountType: '', currency: '' }}
       validateOnChange
-      validationSchema={AccountModalValidation}
+      validationSchema={accountSchema}
       onSubmit={async (res, { setSubmitting, resetForm }) => {
         console.log(res)
       }}

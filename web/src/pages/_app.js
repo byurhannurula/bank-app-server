@@ -19,41 +19,35 @@ Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
-const MyApp = ({ Component, pageProps, apollo, loggedInUser }) => {
-  return (
-    <>
-      {loggedInUser && loggedInUser.me ? (
-        <>
-          <ApolloProvider client={apollo}>
-            <UserProvider>
-              <SEO />
-              <Header />
-              <main role="main">
-                <div className="container-small">
-                  <Component {...pageProps} />
-                  <div id="modal-root" />
-                </div>
-              </main>
-              <QuickActions />
-            </UserProvider>
-          </ApolloProvider>
-        </>
-      ) : (
-        <>
-          <ApolloProvider client={apollo}>
+const MyApp = ({ Component, pageProps, apollo, loggedInUser }) => (
+  <>
+    {loggedInUser && loggedInUser.me ? (
+      <>
+        <ApolloProvider client={apollo}>
+          <UserProvider>
             <SEO />
             <Header />
             <main role="main">
-              <div className="container-small">
-                <Component {...pageProps} />
-              </div>
+              <Component {...pageProps} />
+              <div id="modal-root" />
             </main>
-          </ApolloProvider>
-        </>
-      )}
-    </>
-  )
-}
+            <QuickActions />
+          </UserProvider>
+        </ApolloProvider>
+      </>
+    ) : (
+      <>
+        <ApolloProvider client={apollo}>
+          <SEO />
+          <Header />
+          <main role="main">
+            <Component {...pageProps} />
+          </main>
+        </ApolloProvider>
+      </>
+    )}
+  </>
+)
 
 MyApp.getInitialProps = async ({ Component, ctx }) => {
   let pageProps = {}

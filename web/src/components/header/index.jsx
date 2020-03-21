@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useMutation } from '@apollo/react-hooks'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import Link from 'next/link'
 import cn from 'classnames'
 
@@ -22,14 +22,14 @@ const SiteLink = ({ label, link, icon }) => {
   )
 }
 const Header = () => {
+  const router = useRouter()
   const currentUser = useContext(UserContext)
   const [logOut] = useMutation(logoutMutation)
 
   const handleLogout = async e => {
-    e.preventDefault()
+    // e.preventDefault()
     await logOut()
-    Router.replace('/login')
-    // location.replace('/login')
+    await router.replace('/login')
   }
 
   return (
@@ -54,8 +54,8 @@ const Header = () => {
             </nav>
 
             <button
-              className="nav__link"
               type="button"
+              className="nav__link"
               onClick={e => handleLogout(e)}
             >
               Logout

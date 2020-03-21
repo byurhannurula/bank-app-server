@@ -14,6 +14,10 @@ export const Group = styled.div`
   label {
     color: #ccc;
     font-size: 0.9em;
+
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
   }
 `
 

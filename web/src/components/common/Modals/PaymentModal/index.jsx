@@ -3,10 +3,8 @@ import { Formik, Form } from 'formik'
 import { useQuery } from '@apollo/react-hooks'
 import { getAccounts } from '@requests'
 import { formatMoney } from '@util'
-import { Loader } from '@common'
+import { Loader, InputField, SelectField, paymentSchema } from '@common'
 
-import { InputField, SelectField } from '@common/InputField'
-import { PaymentModalValidation } from '../Schemas'
 import { Row, Group, Button } from '../styles'
 
 export const PaymentModal = () => {
@@ -21,7 +19,7 @@ export const PaymentModal = () => {
   return (
     <Formik
       validateOnChange
-      validationSchema={PaymentModalValidation}
+      validationSchema={paymentSchema}
       initialValues={{ senderAccount: '', iban: '', reason: '', amount: 0 }}
       onSubmit={async (res, { setSubmitting, resetForm }) => {
         console.log(res)

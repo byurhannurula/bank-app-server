@@ -23,6 +23,7 @@ body {
 }
 
 main {
+  @extend .container-small;
   margin-bottom: 56px;
 }
 
@@ -44,5 +45,23 @@ h2.page-title {
   label {
     color: #ccc;
     font-size: 0.9em;
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
   }
+}
+
+.small-text {
+  margin-top: 24px;
+  font-size: 0.9rem;
+  text-align: center;
+  a {
+    color: #419BFF;
+    text-decoration: underline;
+  }
+}
+
+.error {
+  font-size: 0.9em;
+  color: red;
 }

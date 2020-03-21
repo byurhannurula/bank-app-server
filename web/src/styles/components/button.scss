@@ -17,7 +17,24 @@
     background-color: #419BFF;
   }
 
-  &:disabled {
-    opacity: 0.5;
+  
+
+  &-primary {
+    color: #ffffff;
+    background-color: #419BFF;
+
+    &:hover {
+      color: #ffffff;
+      background-color: darken($color: #419BFF, $amount: 5%);
+    }
+
+    &:disabled,
+    &[disabled] {
+      opacity: 0.5;
+      
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
   }
 }
