@@ -1,0 +1,33 @@
+{
+  "private": false,
+  "version": "0.1.0",
+  "name": "back-app-server",
+  "description": "Banking app server.",
+  "author": "Byurhan Beyzat <hi@byurhanbeyzat.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "export NODE_ENV=development && nodemon src/index.js",
+    "start": "export NODE_ENV=production && node src/index.js"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.10.1",
+    "axios": "^0.19.2",
+    "bcrypt": "^3.0.8",
+    "body-parser": "^1.19.0",
+    "connect-redis": "^4.0.4",
+    "cors": "^2.8.5",
+    "date-fns": "^2.10.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "graphql": "^14.6.0",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.13",
+    "redis": "^3.0.2",
+    "yup": "^0.28.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
