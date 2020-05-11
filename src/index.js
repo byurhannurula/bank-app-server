@@ -13,7 +13,7 @@ const initServer = async () => {
 
   await dbConnection()
 
-  app.use('/', routes)
+  // app.use('*', routes)
 
   // app.listen(restPort, () => {
   //   console.log(`— Rest API: http://localhost:${restPort}`)
