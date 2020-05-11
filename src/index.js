@@ -15,9 +15,9 @@ const initServer = async () => {
 
   app.use('/', routes)
 
-  app.listen(restPort, () => {
-    console.log(`— Rest API: http://localhost:${restPort}`)
-  })
+  // app.listen(restPort, () => {
+  //   console.log(`— Rest API: http://localhost:${restPort}`)
+  // })
   httpServer.listen(graphqlPort, () => {
     console.log(`— Graphql API: http://localhost:${graphqlPort}/graphql`)
   })
