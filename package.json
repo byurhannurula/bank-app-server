@@ -6,8 +6,8 @@
   "author": "Byurhan Beyzat <hi@byurhanbeyzat.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "export NODE_ENV=development && nodemon src/index.js",
-    "start": "export NODE_ENV=production && node src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "dependencies": {
     "apollo-server-express": "^2.10.1",

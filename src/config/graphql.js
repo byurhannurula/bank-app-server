@@ -12,13 +12,11 @@ const dev = process.env.NODE_ENV === 'development'
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  playground: !dev
-    ? false
-    : {
-        settings: {
-          'request.credentials': 'include',
-        },
-      },
+  playground: {
+    settings: {
+      'request.credentials': 'include',
+    },
+  },
   context: ({ req, res }) => ({ req, res, models }),
 })
 
