@@ -17,11 +17,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use((req, _, next) => {
   const { authorization } = req.headers
-
+  console.log(authorization)
   if (authorization) {
     try {
       const sessionId = authorization.split(' ')[1]
       req.headers.cookie = `sessionId=${sessionId}`
+      console.log(req.headers.cookie)
     } catch (err) {
       console.log(err)
     }
@@ -47,6 +48,8 @@ app.use(
 
 app.use(
   cors({
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     origin: process.env.FRONTEND_URL || `http://localhost:3000`,
     credentials: true,
   }),
