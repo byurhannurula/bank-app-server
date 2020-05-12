@@ -4,6 +4,7 @@ const { createServer } = require('http')
 const { app } = require('./rest')
 const typeDefs = require('../graphql/schema')
 const resolvers = require('../graphql/resolvers')
+const { redis } = require('./redis')
 
 const { models } = require('../models')
 
@@ -12,12 +13,16 @@ const dev = process.env.NODE_ENV === 'development'
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
   playground: {
     settings: {
       'request.credentials': 'include',
     },
   },
-  context: ({ req, res }) => ({ req, res, models }),
+  context: ({ req, res }) => {
+    console.log(req.session)
+    return { req, res, models }
+  },
 })
 
 server.applyMiddleware({ app, cors: false })

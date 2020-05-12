@@ -15,19 +15,12 @@ app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use((req, res, next) => {
-  const { cookie } = req.headers
-
-  if (cookie) {
-    try {
-      res.setHeader('Set-Cookie', cookie)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  return next()
-})
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || `http://localhost:3000`,
+    credentials: true,
+  }),
+)
 
 app.use(
   session({
@@ -38,18 +31,9 @@ app.use(
     resave: false,
     cookie: {
       secure: !dev,
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     },
-  }),
-)
-
-app.use(
-  cors({
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    origin: process.env.FRONTEND_URL || `http://localhost:3000`,
-    credentials: true,
   }),
 )
 

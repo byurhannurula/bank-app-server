@@ -23,7 +23,7 @@ exports.isAuthenticated = (req, res) => {
 
 exports.logOut = (req, res) =>
   new Promise((resolve, reject) => {
-    req.session.destroy(err => {
+    req.session.destroy((err) => {
       if (err) reject(err)
 
       res.clearCookie(process.env.SESS_NAME)

@@ -12,4 +12,7 @@ redisClient.on('error', console.log)
 
 const store = new RedisStore({ client: redisClient })
 
-exports.store = store
+module.exports = {
+  store,
+  redis: redisClient,
+}
