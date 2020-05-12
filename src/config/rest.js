@@ -15,22 +15,6 @@ app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use((req, _, next) => {
-  const { authorization } = req.headers
-  console.log(authorization)
-  if (authorization) {
-    try {
-      const sessionId = authorization.split(' ')[1]
-      req.headers.cookie = `sessionId=${sessionId}`
-      console.log(req.headers.cookie)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  return next()
-})
-
 app.use(
   session({
     store,
