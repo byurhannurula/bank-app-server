@@ -15,6 +15,20 @@ app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.use((req, res, next) => {
+  const { cookie } = req.headers
+
+  if (cookie) {
+    try {
+      res.setHeader('Set-Cookie', cookie)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  return next()
+})
+
 app.use(
   session({
     store,
