@@ -19,7 +19,9 @@ const server = new ApolloServer({
       'request.credentials': 'include',
     },
   },
-  context: ({ req, res }) => ({ req, res, models }),
+  context: ({ req, res }) => {
+    return { req, res, models }
+  },
 })
 
 server.applyMiddleware({ app, cors: false })

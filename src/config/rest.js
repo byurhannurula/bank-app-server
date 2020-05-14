@@ -31,8 +31,7 @@ app.use(
     resave: false,
     cookie: {
       secure: !dev,
-      httpOnly: false,
-      domain: process.env.SESS_DOMAIN,
+      httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     },
   }),
