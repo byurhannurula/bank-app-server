@@ -30,7 +30,7 @@ app.use(
     saveUninitialized: false,
     resave: false,
     cookie: {
-      secure: !dev,
+      secure: false,
       httpOnly: true,
       domain: '.bbn.codes',
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
