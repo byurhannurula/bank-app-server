@@ -32,6 +32,7 @@ app.use(
     cookie: {
       secure: !dev,
       httpOnly: true,
+      domain: '.bbn.codes',
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     },
   }),
