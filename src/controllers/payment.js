@@ -6,7 +6,7 @@ const { responseData } = require('../util/formatter')
 
 const { CENTRAL_SERVER, MY_BANK_ID } = process.env
 
-const paymentData = data => {
+const paymentData = (data) => {
   return {
     id: data.id,
     IBAN_sender: data.IBAN_sender,

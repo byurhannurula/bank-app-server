@@ -261,7 +261,7 @@ module.exports = {
         )
 
         await models.User.findOneAndUpdate(
-          { _id: benefAcc.owner.id },
+          { _id: benefAcc.owner._id },
           { $push: { payments: newPayment } },
         )
       } else if (isSender && !isBeneficiary) {
