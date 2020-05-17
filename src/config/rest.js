@@ -15,6 +15,19 @@ app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.use((req, _, next) => {
+  const { authorization } = req.headers
+
+  if (authorization) {
+    console.log(authorization)
+
+    const token = authorization.split(' ')[1]
+    req.headers.cookie = `${process.env.SESS_NAME}=${token}`
+  }
+
+  return next()
+})
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || `http://localhost:3000`,
@@ -32,7 +45,7 @@ app.use(
     cookie: {
       secure: !dev,
       httpOnly: true,
-      domain: process.env.SESS_DOMAIN,
+      domain: !dev && process.env.SESS_DOMAIN,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     },
   }),
