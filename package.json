@@ -22,7 +22,7 @@
     "express-session": "^1.17.0",
     "graphql": "^14.6.0",
     "gravatar": "^1.8.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.8.13",
     "redis": "^3.0.2",
     "yup": "^0.28.1"
